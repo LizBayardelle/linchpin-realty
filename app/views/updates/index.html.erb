@@ -1,43 +1,57 @@
-<header class="py-5 z-depth-3 mb-4 text-center" style="height: 200px; background:linear-gradient(0deg, rgba(255,255,255, 0.7), rgba(255,255,255, 0.7)), url(https://ocrphotobucket.s3.us-west-1.amazonaws.com/Charts.jpeg); width: 100%; background-size: cover;" >
+<header class="py-5 z-depth-3 text-center" style="height: 200px; background:linear-gradient(0deg, rgba(255,255,255, 0.7), rgba(255,255,255, 0.7)), url(https://ocrphotobucket.s3.us-west-1.amazonaws.com/Charts.jpeg); width: 100%; background-size: cover;" >
   <h1>Market Updates</h1>
   <% if current_user && current_user.admin %>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUpdateModal">
       Add an Update
     </button>
+  <% else %>
+    <p>Keep yourself current with the latest industry news and trends.</p>
   <% end %>
 </header>
 
 
 
 <main class="container py-5">
-  <div class="row">
-    <div class="col-sm-3 col-lg-2">
-      
-    </div> <!-- col -->
-    <div class="col-sm-9 col-lg-10 border-grey w-100">
+  <div class="row z-depth-2 py-3">
+
+    <div class="match-height col-sm-3 col-lg-2">
+      <% categories = [] %>
       <% @updates.each do |update| %>
+        <% categories << update.category %>
+      <% end %>
 
-        <h2><%= update.name %></h2>
-        <p><small>
-          <%= update.date_published %>, <%= update.category %>, from <%= link_to update.source_name, update.source_url %>
-        </small></p>
+      <div id="allcategories-target" class="category-menu-item selected">All Categories</div>
+      <% categories.sort.each do |category| %>
+        <div id="<%= category.downcase.gsub(/[^a-z0-9]/i, '') %>-target" class="category-menu-item linkish"><%= category %></div>
+      <% end %>
+    </div> <!-- col -->
 
-        <object data="<%= update.resource_url %>" type="application/pdf" style="width: 100%">
-            <embed src="<%= update.resource_url %>" type="application/pdf"  style="width: 100%" />
-        </object>
 
-        <a href="<%= update.resource_url %>" download="<%= update.name %>" class="btn btn-sm btn-buy">Download the PDF</a>
-
-        <% if current_user && current_user.admin %>
+    <div class="match-height scroll-box col-sm-9 col-lg-10">
+      <% @updates.each do |update| %>
+        <div class="pb-4 category-box category-<%= update.category.downcase.gsub(/[^a-z0-9]/i, '') %>-box">
+          <h2><%= update.name %> (<%= update.date_published.strftime("%b %Y") %>)</h2>
           <p><small>
-            <span data-toggle="modal" data-target="#editUpdate<%= update.id %>Modal">
-              Edit
-              &nbsp;&nbsp;|&nbsp;&nbsp;
-              <%= link_to 'Delete', update, method: :delete, data: { confirm: 'Are you sure?' } %>
-            </span>
+            <%= update.date_published.strftime("Published %b %e, %Y") %>, <%= update.category %>, from <%= link_to update.source_name, update.source_url %>
           </small></p>
-        <% end %>
 
+          <object data="<%= update.resource_url %>" type="application/pdf" class="z-depth-2" style="width: 100%">
+              <embed src="<%= update.resource_url %>" type="application/pdf"  class="z-depth-2" style="width: 100%" />
+          </object>
+
+          <a href="<%= update.resource_url %>" download="<%= update.name %>" class="btn btn-sm btn-buy">Download the PDF</a>
+
+          <% if current_user && current_user.admin %>
+            <p><small>
+              <span data-toggle="modal" data-target="#editUpdate<%= update.id %>Modal">
+                Edit
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <%= link_to 'Delete', update, method: :delete, data: { confirm: 'Are you sure?' } %>
+              </span>
+            </small></p>
+          <% end %>
+
+        </div> <!-- category box -->
       <% end %>
     </div> <!-- col -->
   </div> <!-- row -->
@@ -45,6 +59,27 @@
 
 
 
+
+
+<script>
+  $(document).ready(function() {
+    $('#allcategories-target').click(function() {
+      console.log("All categories clicked.");
+      $('.category-menu-item').removeClass('selected');
+      $('#allcategories-target').addClass('selected');
+      $('.category-box').removeClass('hidden');
+    });
+    <% categories.each do |category| %>
+      $('#<%= category.downcase.gsub(/[^a-z0-9]/i, '') %>-target').click(function() {
+        console.log("<%= category %> clicked.");
+        $('.category-menu-item').removeClass('selected');
+        $('#<%= category.downcase.gsub(/[^a-z0-9]/i, '') %>-target').addClass('selected');
+        $('.category-box').addClass('hidden');
+        $('.category-<%= category.downcase.gsub(/[^a-z0-9]/i, '') %>-box').removeClass('hidden');
+      });
+    <% end %>
+  });
+</script>
 
 
 

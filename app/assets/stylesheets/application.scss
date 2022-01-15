@@ -219,6 +219,26 @@ label { text-transform: capitalize; }
 
 
 
+.scroll-box {
+	width: 100%;
+	height: calc(100vh - 344px);
+	overflow-y: scroll;
+	border-left: solid thin $grey-light;
+	padding-left: 20px;
+}
+
+.category-menu-item.selected {
+	color: $grey-dark;
+	cursor: default;
+}
+
+
+.category-menu-item {
+	color: $blue-light;
+	cursor: pointer;
+}
+
+
 
 
 
