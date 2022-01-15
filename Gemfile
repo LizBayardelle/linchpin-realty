@@ -44,7 +44,7 @@ gem 'figaro'
 gem 'high_voltage', '~> 3.1'
 gem 'acts_as_list'
 
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 5.5'
 gem 'puma_worker_killer'
 gem 'rack-tracker'
 gem 'dotenv-rails', require: 'dotenv/rails-now'
