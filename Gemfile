@@ -19,7 +19,7 @@ gem 'mini_magick'
 gem 'aws-sdk' , '~> 3'
 gem 'aws-sdk-s3', require: false
 
-gem 'bootstrap', '~> 4.1.3'
+gem 'bootstrap', '~> 4.3.1'
 gem 'bootsnap'
 gem 'bootstrap-sass' #NOT IN SKS
 gem 'simple_form'
