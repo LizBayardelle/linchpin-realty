@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.5.0'
+ruby '2.6.6'
 
 gem 'rails', '~> 5.2'
 gem 'sass-rails'
@@ -27,7 +27,6 @@ gem 'simple_form_extension'
 gem 'font-awesome-rails'
 gem 'font-awesome-sass'
 gem 'font_awesome5_rails'
-gem 'ionicons-rails'
 gem 'tinymce-rails'
 gem 'rails_sortable'
 gem 'perfect-scrollbar-rails'
@@ -66,14 +65,14 @@ gem 'httpclient'
 gem 'rets'
 gem 'redactor-rails', github: 'glyph-fr/redactor-rails'
 
+gem 'pg'
+
 
 group :production do
-  gem 'pg', '~> 0.20.0'
   gem 'rails_12factor'
 end
 
 group :development do
-  gem 'sqlite3'
   gem 'binding_of_caller'
   gem 'better_errors'
   # gem 'quiet_assets' https://rossta.net/blog/quiet-assets-in-rails-5.html

@@ -23,7 +23,6 @@
  @import 'font-awesome';
  @import 'font_awesome5_webfont';
  @import 'font_awesome5.css';
- @import 'ionicons';
 
 
 
@@ -76,7 +75,7 @@ $color-agent: #5B7BB2 !important;
 
 .btn { font-weight: 700; }
 .btn-primary { background-color: $grey-dark; color: white !important; }
-.btn-buy { background-color: $color-buy; color: white !important; }
+.btn-buy, .btn-default { background-color: $color-buy; color: white !important; }
 .btn-sell { background-color: $color-sell; color: white !important; }
 .btn-loan { background-color: $color-loan; color: white !important; }
 .btn-refinance { background-color: $color-refinance; color: white !important; }
@@ -698,6 +697,11 @@ MDB Overrides
 }
 
 body { padding-left: 240px; }
+
+@media only screen and (min-width : 1441px) {
+  .disappear-with-sidebar { display: none; }
+}
+
 @media only screen and (max-width : 1441px) {
   body {
     padding-left: 0;

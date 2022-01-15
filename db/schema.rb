@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_12_181143) do
+ActiveRecord::Schema.define(version: 2022_01_15_173238) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -329,7 +329,19 @@ ActiveRecord::Schema.define(version: 2019_10_12_181143) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "updates", force: :cascade do |t|
+    t.string "name"
+    t.string "source_name"
+    t.string "source_url"
+    t.string "resource_url"
+    t.string "category"
+    t.datetime "date_published"
+    t.boolean "display", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"

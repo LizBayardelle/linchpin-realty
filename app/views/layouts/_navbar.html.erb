@@ -1,7 +1,7 @@
 <!--Navbar -->
 <nav class="mb-1 navbar navbar-expand-sm navbar-light white">
   <!-- SideNav slide-out button -->
-  <a href="#" data-activates="slide-out" class="text-navy p-3 button-collapse">
+  <a href="#" data-activates="slide-out" class="disappear-with-sidebar text-navy p-3 button-collapse">
     <i class="fas fa-bars"></i>
   </a>
 
@@ -43,6 +43,15 @@
 
       <li class="nav-item">
         <%= link_to 'Resources', resources_path, class: "nav-link" %>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Resources</a>
+        <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+          <%= link_to "Printable Resources", resources_path, class: "dropdown-item buy", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Downloadable Resources'})" %>
+          <%= link_to "Market Updates", updates_path, class: "dropdown-item rent", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Housing Market Updates'})" %>
+        </div>
       </li>
 
 

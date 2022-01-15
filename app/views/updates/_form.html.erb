@@ -1,0 +1,51 @@
+<%= simple_form_for(update) do |f| %>
+
+  <div class="modal-body">
+    <%= f.error_notification %>
+    <div class="form-inputs">
+      <div class="row">
+      
+        <div class="form-group col-12">
+          <%= f.label "Update Title" %>
+          <%= f.text_field :name, class: "form-control" %>
+        </div> <!-- form-group -->
+        
+        <div class="form-group col-sm-6">
+          <%= f.label "Source Name" %>
+          <%= f.text_field :source_name, class: "form-control" %>
+        </div> <!-- form-group -->
+        
+        <div class="form-group col-sm-6">
+          <%= f.label "Source URL" %>
+          <%= f.text_field :source_url, class: "form-control" %>
+        </div> <!-- form-group -->
+        
+        <div class="form-group col-12">
+          <%= f.label "PDF Link" %>
+          <%= f.text_field :resource_url, class: "form-control" %>
+        </div> <!-- form-group -->
+        
+        <div class="form-group col-12">
+          <%= f.label "Which category is this for?" %><br />
+          <%= f.input :category, label: false, prompt: "Select One", input_html: { class: 'browser-default custom-select custom-select-lg' }, collection: [["Residential", "Residential"], ["Commercial", "Commercial"], ["Investing","Investing"],["Other","Other"]], required: true %>
+        </div> <!-- form-group -->
+        
+        <div class="form-group col-12">
+          <%= f.input :date_published, class: "form-control" %>
+        </div> <!-- form-group -->
+        
+        <div class="form-group col-12">
+          <%= f.check_box :display, class: "form-check-input", id: "display" %>
+          <%= f.label "Display on the website", class: "form-check-label", for: "display" %>
+        </div> <!-- form-group -->
+
+      </div> <!-- row -->
+    </div>
+  </div>
+
+  <div class="modal-footer form-actions">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+    <%= f.button :submit, class: "btn btn-buy" %>
+  </div>
+
+<% end %>

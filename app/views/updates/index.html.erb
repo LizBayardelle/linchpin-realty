@@ -1,0 +1,86 @@
+<header class="py-5 z-depth-3 mb-4 text-center" style="height: 200px; background:linear-gradient(0deg, rgba(255,255,255, 0.7), rgba(255,255,255, 0.7)), url(https://ocrphotobucket.s3.us-west-1.amazonaws.com/Charts.jpeg); width: 100%; background-size: cover;" >
+  <h1>Market Updates</h1>
+  <% if current_user && current_user.admin %>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUpdateModal">
+      Add an Update
+    </button>
+  <% end %>
+</header>
+
+
+
+<main class="container py-5">
+  <div class="row">
+    <div class="col-sm-3 col-lg-2">
+      
+    </div> <!-- col -->
+    <div class="col-sm-9 col-lg-10 border-grey w-100">
+      <% @updates.each do |update| %>
+
+        <h2><%= update.name %></h2>
+        <p><small>
+          <%= update.date_published %>, <%= update.category %>, from <%= link_to update.source_name, update.source_url %>
+        </small></p>
+
+        <object data="<%= update.resource_url %>" type="application/pdf" style="width: 100%">
+            <embed src="<%= update.resource_url %>" type="application/pdf"  style="width: 100%" />
+        </object>
+
+        <a href="<%= update.resource_url %>" download="<%= update.name %>" class="btn btn-sm btn-buy">Download the PDF</a>
+
+        <% if current_user && current_user.admin %>
+          <p><small>
+            <span data-toggle="modal" data-target="#editUpdate<%= update.id %>Modal">
+              Edit
+              &nbsp;&nbsp;|&nbsp;&nbsp;
+              <%= link_to 'Delete', update, method: :delete, data: { confirm: 'Are you sure?' } %>
+            </span>
+          </small></p>
+        <% end %>
+
+      <% end %>
+    </div> <!-- col -->
+  </div> <!-- row -->
+</main>
+
+
+
+
+
+
+
+
+
+<!-- New Update Modal -->
+<div class="modal fade" id="newUpdateModal" tabindex="-1" role="dialog" aria-labelledby="newUpdateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newUpdateModalLabel">Add an Update</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%= render partial: "updates/form", locals: { update: Update.new } %>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Edit Update Modal -->
+<% @updates.each do |update| %>
+  <div class="modal fade" id="editUpdate<%= update.id %>Modal" tabindex="-1" role="dialog" aria-labelledby="editUpdate<%= update.id %>ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editUpdate<%= update.id %>ModalLabel">Add an Update</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <%= render partial: "updates/form", locals: { update: update } %>
+      </div>
+    </div>
+  </div>
+<% end %>

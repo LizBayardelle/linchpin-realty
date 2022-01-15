@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @update.name %>
+</p>
+
+<p>
+  <strong>Source name:</strong>
+  <%= @update.source_name %>
+</p>
+
+<p>
+  <strong>Source url:</strong>
+  <%= @update.source_url %>
+</p>
+
+<p>
+  <strong>Resource url:</strong>
+  <%= @update.resource_url %>
+</p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @update.category %>
+</p>
+
+<p>
+  <strong>Date published:</strong>
+  <%= @update.date_published %>
+</p>
+
+<p>
+  <strong>Display:</strong>
+  <%= @update.display %>
+</p>
+
+<%= link_to 'Edit', edit_update_path(@update) %> |
+<%= link_to 'Back', updates_path %>
