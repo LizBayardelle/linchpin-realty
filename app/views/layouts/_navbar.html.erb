@@ -63,7 +63,7 @@
             <%= link_to "Admin Dashboard", admin_dashboard_path, class: "dropdown-item" %>
             <%= link_to "Loans", admin_loans_path, class: "dropdown-item" %>
             <%= link_to "Documents", admin_documents_path, class: "dropdown-item" %>
-            <%#= link_to "Clients", admin_clients_path, class: "dropdown-item" %>
+            <%= link_to "Clients", admin_clients_path, class: "dropdown-item" %>
             <%#= link_to "Blog Manager", admin_blogs_path, class: "dropdown-item" %>
             <%= link_to 'My Account', user_path(current_user), class: "dropdown-item" %>
             <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>

@@ -6,4 +6,43 @@
 
 
 <main class="my-4 container">
+
+<!-- CURRENT CLIENTS -->
+
+
+
+<!-- ALL USERS -->
+  <section class="row justify-content-center">
+    <div class="col-12">
+      <h2>All Registered Users</h2>
+      <table class="table basic-table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% User.all.each do |user| %>
+            <tr>
+              <td><%= user.id %></td>
+              <td><%= link_to user.full_name, user_path(user) %></td>
+              <td><%= user.email %></td>
+              <td><%= user.phone %></td>
+              <td><%= user.created_at.strftime('%m/%d/%Y') %></td>
+              <td>
+                <%= link_to "<i class='fas fa-minus-square mr-1'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
+                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope'></i></a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div> <!-- col -->
+  </section>
+
+
 </main>
