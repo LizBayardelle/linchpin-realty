@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   end
 
   def send_email
-    UserMailer.new_user(self).deliver_now
+    # UserMailer.new_user(self).deliver_now
   end
 
   def full_name

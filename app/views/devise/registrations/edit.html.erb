@@ -7,6 +7,9 @@
 				<h1 class="text-center py-3">Edit My Information</h1>
 
         <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+
+          <%= devise_error_messages! %>
+
 					<div class="form-inputs">
 						<div class="form-row row justify-content-center">
 							<div class="form-group my-2 md-form col-sm-6 col-xs-12">
