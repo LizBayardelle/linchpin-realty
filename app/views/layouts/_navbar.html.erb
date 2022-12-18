@@ -22,8 +22,8 @@
           aria-haspopup="true" aria-expanded="false">
           How To</a>
         <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-          <%= link_to "Buy a House", page_path("buy"), class: "dropdown-item buy", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Buy a House'})" %>
-          <%= link_to "Rent a House", page_path("rent"), class: "dropdown-item rent", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Rent a House'})" %>
+          <%= link_to "Buy a House", page_path("buy"), class: "dropdown-item", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Buy a House'})" %>
+          <%= link_to "Rent a House", page_path("rent"), class: "dropdown-item", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Rent a House'})" %>
           <%= link_to "Sell My House", page_path("sell"), class: "dropdown-item sell", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Sell a House'})" %>
           <%= link_to "Get a Loan", page_path("loan"), class: "dropdown-item loan", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Get a Loan'})" %>
           <%= link_to "Refinance My Mortgage", page_path("mortgage"), class: "dropdown-item refinance", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Refinance'})" %>
@@ -49,31 +49,52 @@
           aria-haspopup="true" aria-expanded="false">
           Resources</a>
         <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-          <%= link_to "Printable Resources", resources_path, class: "dropdown-item buy", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Downloadable Resources'})" %>
-          <%= link_to "Market Updates", updates_path, class: "dropdown-item rent", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Housing Market Updates'})" %>
+          <%= link_to "Printable Resources", resources_path, class: "dropdown-item", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Downloadable Resources'})" %>
+          <%= link_to "Market Updates", updates_path, class: "dropdown-item", onclick: "ga('send',{'hitType': 'event','eventCategory': 'nav', 'eventAction': 'Click Main Nav Housing Market Updates'})" %>
         </div>
       </li>
 
-
-      <li class="nav-item dropdown">
-        <% if current_user %>
-          <a class="nav-link" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+      <% if current_user && current_user.admin %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            <%= current_user.full_name %></a>
+            Admin</a>
           <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+            <%= link_to "Admin Dashboard", admin_dashboard_path, class: "dropdown-item" %>
+            <%= link_to "Loans", admin_loans_path, class: "dropdown-item" %>
+            <%= link_to "Documents", admin_documents_path, class: "dropdown-item" %>
+            <%#= link_to "Clients", admin_clients_path, class: "dropdown-item" %>
+            <%#= link_to "Blog Manager", admin_blogs_path, class: "dropdown-item" %>
             <%= link_to 'My Account', user_path(current_user), class: "dropdown-item" %>
             <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
           </div>
-        <% else %>
-          <a class="nav-link" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+        </li>
+      <% end %>
+      <% if current_user %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            My Account </a>
+            My Portal</a>
           <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
-            <%= link_to 'Sign Up', new_user_registration_path, class: "dropdown-item" %>
+            <%= link_to 'My Documents', documents_path, class: "dropdown-item" %>           
+            <% Loan.where(user_id: current_user.id).each do |loan| %>
+              <%= link_to loan.first_payment.year.to_s + " " + loan.program + " Loan", loan_path(loan), class: "dropdown-item" %>
+            <% end %>
+            <%= link_to 'My Account', user_path(current_user), class: "dropdown-item" %>
+            <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+          </div>
+        </li>
+      <% else %>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            My Account</a>
+          <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+            <%= link_to 'Create an Account', new_user_registration_path, class: "dropdown-item" %>
             <%= link_to 'Sign In', new_user_session_path, class: "dropdown-item" %>
           </div>
-        <% end %>
-      </li>
+        </li>
+      <% end %>
 
     </ul>
   </div>

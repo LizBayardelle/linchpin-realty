@@ -1,0 +1,73 @@
+<!-- page-specific content -->
+  <% title "Dashboard | Linchpin Realty" %>
+  <%= content_for :head do %>
+    <meta name="description" content="Here you can see your account information and individual data." />
+  <% end %>
+<!-- page-specific content -->
+
+
+
+
+
+
+
+
+<div class="view jarallax" style="height: 100vh;">
+	<img class="jarallax-img" src="<%= asset_path("sunset.jpg") %>" alt="Log In Page">
+	<div class="mask rgba-blue-slight">
+		<div class="container flex-center">
+      <div class="row mt-5 text-center justify-content-center">
+        <h1 class="display-3 mb-2 wow text-white fadeInDown" data-wow-delay="0.3s"><%= @user.first_name %>'s Dashboard</h1>
+        <div class="col-12">
+          <%= link_to "Edit My Info", edit_user_registration_path, class: "btn btn-grey" %>
+          <%= link_to('Logout', destroy_user_session_path, :method => :delete, class: "btn btn-grey") %>
+        </div>
+        <% if current_user.admin %>
+          <p class="text-center text-white">
+            <%= link_to "Blogs Admin Index", page_path(:blogs_list), class: "text-white" %>
+            &nbsp;|&nbsp;
+            <%= link_to "Subscribers", subscribers_path, class: "text-white" %>
+          </p>
+        <% end %>
+      </div> <!-- row -->
+		</div> <!-- container -->
+  </div> <!-- mask -->
+</div> <!-- jarallax -->
+
+
+
+
+
+<div class="container users py-5">
+
+	<% if current_user.admin %>
+		<%= render "quicks" %>
+    <hr>
+		<%= render "buyers" %>
+    <hr>
+		<%= render "clients" %>
+    <hr>
+		<%= render "contacts" %>
+    <hr>
+		<%= render "values" %>
+	<% else %> <!-- not admin section -->
+
+	<% end %>
+</div> <!-- container -->
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+    // object-fit polyfill run
+    objectFitImages();
+    /* init Jarallax */
+    jarallax(document.querySelectorAll('.jarallax'));
+    jarallax(document.querySelectorAll('.jarallax-keep-img'), {
+        keepImg: true,
+    });
+  });
+</script>

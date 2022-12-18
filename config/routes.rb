@@ -1,17 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :updates
   resources :home, only: [:index]
   root "home#index"
-
-  resources :quicks
-  post "quick/:id/archive" => "quicks#archive_quick", as: "archive_quick"
-  post "quick/:id/unarchive" => "quicks#unarchive_quick", as: "unarchive_quick"
-  post "quick/:id/make_responded" => "quicks#make_responded", as: "make_responded"
-  post "quick/:id/make_unresponded" => "quicks#make_unresponded", as: "make_unresponded"
-  post "quick/:id/quick_read" => "quicks#quick_read", as: "quick_read"
-  post "quick/:id/quick_unread" => "quicks#quick_unread", as: "quick_unread"
-
 
   devise_for :users, :controllers => { registrations: 'registrations' }
   match 'users/:id' => 'users#destroy', :via => :delete, :as => :admin_destroy_user
@@ -23,6 +13,26 @@ Rails.application.routes.draw do
   post "user/:id/client_read" => "users#client_read", as: "client_read"
   post "user/:id/client_unread" => "users#client_unread", as: "client_unread"
 
+  get 'admin/dashboard'
+  get 'admin/loans'
+  get 'admin/blogs'
+  get 'admin/clients'
+  get 'admin/documents'
+
+  resources :loans
+  resources :documents
+  post "documents/:id/mark_received" => "documents#mark_received", as: "mark_received"
+
+  resources :payments
+  resources :updates
+
+  resources :quicks
+  post "quick/:id/archive" => "quicks#archive_quick", as: "archive_quick"
+  post "quick/:id/unarchive" => "quicks#unarchive_quick", as: "unarchive_quick"
+  post "quick/:id/make_responded" => "quicks#make_responded", as: "make_responded"
+  post "quick/:id/make_unresponded" => "quicks#make_unresponded", as: "make_unresponded"
+  post "quick/:id/quick_read" => "quicks#quick_read", as: "quick_read"
+  post "quick/:id/quick_unread" => "quicks#quick_unread", as: "quick_unread"
 
   get 'test/hero'
 

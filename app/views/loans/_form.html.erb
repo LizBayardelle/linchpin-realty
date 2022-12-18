@@ -1,0 +1,17 @@
+<%= simple_form_for(@loan) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :first_payment %>
+    <%= f.input :principal %>
+    <%= f.input :interest_rate %>
+    <%= f.input :term_months %>
+    <%= f.input :active %>
+    <%= f.association :user %>
+    <%= f.input :admin_notes %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

@@ -1,0 +1,69 @@
+<nav class="breadcrumbs">
+  <%= link_to "Admin Dashboard", admin_dashboard_path %>
+  &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+  Documents Manager
+</nav>
+
+
+<main class="my-4 container">
+
+  <header class="row mb-3">
+    <div class="col-12 text-center text-sm-left">
+      <h1 class="mb-0 pb-0">Admin Documents Manager</h1>
+      <p>
+        <span>Uploaded Client Documents</span>
+      </p>
+    </div> <!-- col --> 
+  </header>
+
+
+  <section class="row">
+    <% @clients.each do |client| %>
+      <div class="col-12">
+        <% if client.documents.count != 0 %>
+          <h2><%= client.last_first %></h2>
+          <table class="table basic-table table-hover">
+            <tbody>
+              <% client.documents.order(created_at: :asc).each do |document| %>
+                <tr style="vertical-align:top">
+                  <td class="text-center" style="max-width: 40px">
+                    <% if document.received %>
+                      <i class="fas fa-check-circle color-green"></i>
+                    <% else %>
+                      <%= link_to mark_received_path(document), method: :post do %>
+                        <i class="far fa-check-circle color-green"></i>
+                      <% end %>
+                    <% end %>
+                  </td>
+                  <td class="text-center" style="max-width: 40px">
+                    <% if document.upload.attached? %>
+                      <a href="<%= rails_blob_path(document.upload) %>" target="_blank">
+                        <i class="fas fa-file"></i>
+                      </a>
+                    <% end %>
+                  </td>
+                  <td><%= document.created_at.strftime('%m/%d/%Y') %></td>
+                  <td><%= document.name %></td>
+                  <td>
+                    <% if document.loan %>
+                      <%= document.loan.loan_identifier %>
+                    <% end %>
+                  </td>
+                  <td><%= document.notes %></td>
+                  <td class="text-center" style="max-width: 40px">
+                    <%= link_to '<i class="fas fa-trash mr-1"></i>'.html_safe, document_path(document), method: :delete, data: {confirm: "Are you sure you want to permanently delete that document?"} %>
+                  </td>
+                </tr>
+              <% end %>
+
+            </tbody>
+          </table>
+        <% else %>
+          <p>This client doesn't have any uploaded documents.</p>
+        <% end %>
+
+      </div> <!-- col -->
+    <% end %> <!-- client each -->
+  </section>
+
+</main>

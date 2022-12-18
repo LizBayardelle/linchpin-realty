@@ -1,73 +1,64 @@
-<!-- page-specific content -->
-  <% title "Dashboard | Linchpin Realty" %>
-  <%= content_for :head do %>
-    <meta name="description" content="Here you can see your account information and individual data." />
-  <% end %>
-<!-- page-specific content -->
+<nav class="breadcrumbs">
+  My Portal
+</nav>
 
 
+<main class="my-5 container font-sans">
 
+	<header class="text-center mb-4">
+		<h1>My Portal</h1>
+	</header>
 
+	<section class="row pb-5">
 
+		<div class="col-sm-6">
+			<h2>My Loans</h2>
+			<table class="table basic-table">
+				<tbody>
+					<% @loans.each do |loan| %>
+						<tr>
+							<td>
+								<% if loan.user %>
+									<i class="fas fa-link ml-1 color-red"></i>
+								<% end %>
+							</td>
+							<td><%= link_to loan.loan_identifier, loan_path(loan) %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div> <!-- col -->
 
+		<div class="col-sm-6">
+			<h2>Recent Docs</h2>
+			<table class="table basic-table">
+				<tbody>
+					<% @documents.each do |document| %>
+						<tr>
+              <td class="text-center" style="max-width: 40px">
+                <% if document.received %>
+                  <i class="fas fa-check-circle color-green"></i>
+                <% else %>
+                  <%= link_to mark_received_path(document), method: :post do %>
+                    <i class="far fa-check-circle color-green"></i>
+                  <% end %>
+                <% end %>
+              </td>
+							<td>
+								<% if document.upload.attached? %>
+                    <a href="<%= rails_blob_path(document.upload) %>" target="_blank">
+                      <i class="fas fa-file"></i>
+                    </a>
+                  <% end %>
+							</td>
+              <td><%= document.name %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+			<%= link_to "My Document Manager", documents_path, class: "btn btn-blue-dark btn-sm" %>
+		</div> <!-- col -->
 
+	</section>
 
-<div class="view jarallax" style="height: 100vh;">
-	<img class="jarallax-img" src="<%= asset_path("sunset.jpg") %>" alt="Log In Page">
-	<div class="mask rgba-blue-slight">
-		<div class="container flex-center">
-      <div class="row mt-5 text-center justify-content-center">
-        <h1 class="display-3 mb-2 wow text-white fadeInDown" data-wow-delay="0.3s"><%= @user.first_name %>'s Dashboard</h1>
-        <div class="col-12">
-          <%= link_to "Edit My Info", edit_user_registration_path, class: "btn btn-grey" %>
-          <%= link_to('Logout', destroy_user_session_path, :method => :delete, class: "btn btn-grey") %>
-        </div>
-        <% if current_user.admin %>
-          <p class="text-center text-white">
-            <%= link_to "Blogs Admin Index", page_path(:blogs_list), class: "text-white" %>
-            &nbsp;|&nbsp;
-            <%= link_to "Subscribers", subscribers_path, class: "text-white" %>
-          </p>
-        <% end %>
-      </div> <!-- row -->
-		</div> <!-- container -->
-  </div> <!-- mask -->
-</div> <!-- jarallax -->
-
-
-
-
-
-<div class="container users py-5">
-
-	<% if current_user.admin %>
-		<%= render "quicks" %>
-    <hr>
-		<%= render "buyers" %>
-    <hr>
-		<%= render "clients" %>
-    <hr>
-		<%= render "contacts" %>
-    <hr>
-		<%= render "values" %>
-	<% else %> <!-- not admin section -->
-
-	<% end %>
-</div> <!-- container -->
-
-
-
-
-
-
-<script>
-  $(document).ready(function() {
-    // object-fit polyfill run
-    objectFitImages();
-    /* init Jarallax */
-    jarallax(document.querySelectorAll('.jarallax'));
-    jarallax(document.querySelectorAll('.jarallax-keep-img'), {
-        keepImg: true,
-    });
-  });
-</script>
+</main>

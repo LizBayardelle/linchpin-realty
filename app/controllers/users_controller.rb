@@ -1,6 +1,10 @@
 class UsersController < ApplicationController
   def show
   	@user = User.find(params[:id])
+    @loans = Loan.where(user_id: @user.id)
+    @documents = Document.where(user_id: @user.id)
+
+
     @contacts = Contact.where(archived: false).order('created_at DESC')
     @archived_contacts = Contact.where(archived: true).order('created_at DESC')
     @confirmed_clients = User.where(admin: false, archived: false, status_confirmed: true).order('created_at DESC')

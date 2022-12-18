@@ -7,7 +7,7 @@
 				<h1 class="text-center pt-3">Create an Account</h1>
 				<p class="text-center"><%= link_to('Already have an account?', new_user_session_path)  %></p>
 
-				<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
 					<div class="form-inputs">
 						<div class="form-row row justify-content-center">
 							<%= f.invisible_captcha :subtitle %>
@@ -51,32 +51,30 @@
 
 
 						<div class="row">
-							<div class="col-sm-12">
-								<%= f.label "I'm interested in..." %>
-							</div> <!-- col -->
-						</div>
-
-						<div class="row">
-							<div class="mb-3 field form-check" style="margin-left: auto; margin-right: auto;">
-								<%= f.check_box :buyer, class: "form-check-input", id: "buyer" %>
-								<%= f.label "Buying a House", class: "form-check-label", for: "buyer" %>
-							</div>
-							<div class="mb-3 field form-check" style="margin-left: auto; margin-right: auto;">
-								<%= f.check_box :seller, class: "form-check-input", id: "seller" %>
-								<%= f.label "Selling a House", class: "form-check-label", for: "seller" %>
-							</div>
+								<div class="col-sm-6 mb-3">
+									<div class="field form-check">
+										<%= f.check_box :current_client, class: "form-check-input", id: "buyer" %>
+										<%= f.label "I'm a current Linchpin Realty client.", class: "form-check-label", for: "buyer" %>
+									</div>
+									<div class="field form-check">
+										<%= f.check_box :buyer, class: "form-check-input", id: "buyer" %>
+										<%= f.label "I want to buy a home.", class: "form-check-label", for: "buyer" %>
+									</div>
+									<div class="field form-check">
+										<%= f.check_box :seller, class: "form-check-input", id: "seller" %>
+										<%= f.label "I want to sell my house.", class: "form-check-label", for: "seller" %>
+									</div>
+								</div>
+								<div class="col-sm-6 mb-3">
+									<div class="field form-check">
+										<%= f.check_box :blog_emails, class: "form-check-input", id: "blog_emails" %>
+										<%= f.label "Please email me real estate tips.", class: "form-check-label", for: "blog_emails" %>
+									</div>
+								</div>
 						</div> <!-- row -->
 
 
 						<hr>
-
-
-						<div class="row text-center">
-							<div class="mb-3 field form-check" style="margin-left: auto; margin-right: auto;">
-								<%= f.check_box :blog_emails, class: "form-check-input", id: "blog_emails" %>
-								<%= f.label "Email me when a new blog post comes out", class: "form-check-label", for: "blog_emails" %>
-							</div> <!-- form field -->
-						</div> <!-- row -->
 
 				  </div> <!-- form inputs -->
 

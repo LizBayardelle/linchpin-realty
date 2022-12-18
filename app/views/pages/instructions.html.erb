@@ -1,0 +1,45 @@
+<main class="py-5 container font-sans">
+	<header class="text-center mb-5">
+		<h1 class="font-sans color-blue-dark">Payment Options</h1>
+		<p>For your convenience, we accept several different methods&nbsp;of&nbsp;payment.</p>
+	</header>
+
+	<div class="row text-center">
+
+		<section class="col-sm-4">
+			<%= image_tag "zelle.png", style: "width: 60px", class: "mb-3" %>
+			<h2 class="font-sans mb-3">Zelle</h2>
+			<p>
+				We accept payments via Zelle. Search for Linchpin Realty using the email address <a href="mailto:anthony@linchpinrealty.com" class="text-highlight">anthony@linchpinrealty.com</a> or <a href="tel:19495241246" class="text-highlight">949.524.1246</a>. Please write the borrower’s name and the loan number in the&nbsp;memo&nbsp;section.
+			</p>
+		</section>
+
+		<section class="col-sm-4">
+			<%= image_tag "ach.png", style: "width: 60px", class: "mb-3" %>
+			<h2 class="font-sans mb-3">ACH Transfer</h2>
+			<p>
+				To pay via one-time ACH payment, please fill out and sign our <%= link_to 'Payment&nbsp;Options&nbsp;Form'.html_safe, root_url+'PaymentOptions.pdf', { target: '_blank', class: "text-highlight" } %>.
+			</p>
+			<p>Your completed form can either be uploaded on your My Documents portal or emailed to <a href="mailto:anthony@linchpinrealty.com" class="text-highlight">anthony@linchpinrealty.com</a>.
+		</section>
+
+		<section class="col-sm-4">
+			<%= image_tag "check.png", style: "width: 60px", class: "mb-3" %>
+			<h2 class="font-sans mb-3">Pay by Check</h2>
+			<p>
+				If you would like to pay by check, please make your check out to <span class="text-highlight">Linchpin Realty</span> and include the borrower’s name and the loan number in the memo section. Please mail your check to <span class="text-highlight">26895 Aliso Creek Road, B-62, Aliso Viejo, CA 92656</span>.
+			</p>
+		</section>
+
+	</div>
+
+
+	<section class="text-center mt-4 row justify-content-center">
+		<div class="col-sm-9 col-lg-7">
+			<p class="lh-1"><em>
+				Feel free to contact us directly if you prefer a different form of payment, including but not limited to instructions for a&nbsp;wire&nbsp;transfer.
+			</em></p>
+		</div>
+	</section>
+
+</main>

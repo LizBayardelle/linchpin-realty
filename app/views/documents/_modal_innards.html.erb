@@ -1,0 +1,40 @@
+<%= simple_form_for(document) do |f| %>
+
+	<div class="modal-body">
+		<%= f.error_notification %>
+
+		<div class="form-inputs row">
+			<div class="form-group col-12">
+				<%= f.label "Document Name" %>
+				<%= f.text_field :name, required: true, label: false, class: "form-control" %>
+			</div>
+			<div class="form-group col-12 col-sm-6">
+				<%= f.label "File Upload" %>
+				<br>
+				<%= f.file_field :upload %>
+			</div>
+			<div class="form-group col-12 col-sm-6">
+				<%= f.label "Is this for a loan?" %>
+		        <%= f.collection_select(:loan_id, Loan.where(user_id: current_user.id), :id, :loan_identifier, include_blank: "Select a Loan" ) %>
+			</div>
+
+			<div class="form-group col-12">
+				<%= f.label "Notes" %>
+				<%= f.text_area :notes, label: false, class: "form-control", placeholder: "Is there any information we need about this document?" %>
+			</div>
+		</div>
+	</div> <!-- modal body -->
+
+
+	<div class="modal-footer form-actions">
+		<button type="button" class="btn btn-grey" data-dismiss="modal">Close</button>
+		<%= f.submit "Save", class: "btn btn-blue" %>
+	</div> <!-- modal footer -->
+
+<% end %>
+
+<script>
+	$(document).ready(function() {
+		$("select").addClass("block");
+	});
+</script>

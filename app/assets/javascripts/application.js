@@ -29,9 +29,9 @@
 
 
 
-$(document).on("ready page:load", function() {
-  setTimeout(function() { $(".alert").fadeOut(); }, 5000);
-});
+setTimeout(function() {
+    $('.alert').fadeOut('fast');
+}, 5000);
 
 
 $('.ckeditor').ckeditor({

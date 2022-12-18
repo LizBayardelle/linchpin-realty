@@ -1,0 +1,21 @@
+<div class="modal fade" id="editPayment<%= payment.id %>Modal" tabindex="-1" role="dialog" aria-labelledby="editPayment<%= payment.id %>ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editPayment<%= payment.id %>ModalLabel">Edit Loan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <%= render partial: "payments/modal_innards", locals: { payment: payment } %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+	$(".input-group-btn").addClass("hidden");
+});
+</script>

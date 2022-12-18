@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_15_173238) do
+ActiveRecord::Schema.define(version: 2022_12_17_205831) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,18 @@ ActiveRecord::Schema.define(version: 2022_01_15_173238) do
     t.boolean "read", default: false
   end
 
+  create_table "documents", force: :cascade do |t|
+    t.string "name"
+    t.text "notes"
+    t.bigint "user_id"
+    t.bigint "loan_id"
+    t.boolean "received", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["loan_id"], name: "index_documents_on_loan_id"
+    t.index ["user_id"], name: "index_documents_on_user_id"
+  end
+
   create_table "friendly_id_slugs", id: :serial, force: :cascade do |t|
     t.string "slug", null: false
     t.integer "sluggable_id", null: false
@@ -234,6 +246,33 @@ ActiveRecord::Schema.define(version: 2022_01_15_173238) do
     t.integer "default_image_file_size"
     t.datetime "default_image_updated_at"
     t.index ["slug"], name: "index_listings_on_slug", unique: true
+  end
+
+  create_table "loans", force: :cascade do |t|
+    t.date "first_payment"
+    t.decimal "principal", precision: 10, scale: 2
+    t.decimal "interest_rate", precision: 10, scale: 3
+    t.integer "term_months"
+    t.boolean "active"
+    t.bigint "user_id"
+    t.text "admin_notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "client_email"
+    t.string "program"
+    t.string "client_last_name"
+    t.index ["user_id"], name: "index_loans_on_user_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.string "due_or_paid"
+    t.datetime "date"
+    t.bigint "loan_id"
+    t.string "paid_by"
+    t.decimal "amount", precision: 10, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["loan_id"], name: "index_payments_on_loan_id"
   end
 
   create_table "pillars", id: :serial, force: :cascade do |t|
@@ -365,6 +404,7 @@ ActiveRecord::Schema.define(version: 2022_01_15_173238) do
     t.boolean "status_confirmed", default: false
     t.boolean "archived", default: false
     t.boolean "read", default: false
+    t.boolean "current_client", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -387,6 +427,7 @@ ActiveRecord::Schema.define(version: 2022_01_15_173238) do
   add_foreign_key "comments", "blogs"
   add_foreign_key "comments", "users"
   add_foreign_key "intakes", "users"
+  add_foreign_key "payments", "loans"
   add_foreign_key "resources", "users"
   add_foreign_key "values", "users"
 end

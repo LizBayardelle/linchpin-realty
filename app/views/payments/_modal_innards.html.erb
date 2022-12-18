@@ -1,0 +1,34 @@
+<%= simple_form_for(payment) do |f| %>
+
+	<div class="modal-body">
+		<%= f.error_notification %>
+
+		<%= f.hidden_field :loan_id, value: @loan.id %>
+
+		<div class="form-inputs row">
+          	<div class="form-group col-sm-6 col-12 show-select">
+				<%= f.label "Due or Paid" %>
+				<%= f.input :due_or_paid, label: false, collection: ['Due', 'Paid'], class: "form-control", style: "width: 100%" %> 
+			</div>
+			<div class="form-group col-sm-6 col-12">
+				<%= f.label "Amount" %>
+				<%= f.input :amount, label: false, class: "form-control" %>
+			</div>
+			<div class="form-group col-sm-6 col-12">
+				<%= f.label "Date" %>
+				<%= f.input :date, label: false, class: "form-control" %>
+			</div>
+			<div class="form-group col-sm-6 col-12">
+				<%= f.label "Paid By" %>
+				<%= f.text_field :paid_by, label: false, class: "form-control" %>
+			</div>
+		</div>
+	</div> <!-- modal body -->
+
+
+	<div class="modal-footer form-actions">
+		<button type="button" class="btn btn-grey" data-dismiss="modal">Close</button>
+		<%= f.submit "Save", class: "btn btn-blue" %>
+	</div> <!-- modal footer -->
+
+<% end %>

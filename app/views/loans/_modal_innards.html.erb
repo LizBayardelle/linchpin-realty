@@ -1,0 +1,52 @@
+<%= simple_form_for(loan) do |f| %>
+
+	<div class="modal-body">
+		<%= f.error_notification %>
+
+		<div class="form-inputs row">
+			<div class="form-group col-12">
+				<%= f.label "Program" %>
+				<%= f.text_field :program, label: false, class: "form-control" %>
+			</div>
+			<div class="form-group col-sm-6 col-12">
+				<%= f.label "Client Last Name" %>
+				<%= f.text_field :client_last_name, label: false, class: "form-control" %>
+			</div>
+			<div class="form-group col-sm-6 col-12">
+				<%= f.label "Client Email Address" %>
+				<%= f.email_field :client_email, label: false, class: "form-control" %>
+			</div>
+			<div class="form-group col-sm-6 col-12">
+				<%= f.label "First Payment Due Date" %>
+				<%= f.input :first_payment, label: false, class: "form-control" %>
+			</div>
+			<div class="form-group col-sm-6 col-12">
+				<%= f.label "Loan Term" %>
+				<%= f.input :term_months, label: false, placeholder: "In Months", class: "form-control" %>
+			</div>
+			<div class="form-group col-sm-6 col-12">
+				<%= f.label "Principal Amount" %>
+				<%= f.input :principal, label: false, class: "form-control" %>
+			</div>
+			<div class="form-group col-sm-6 col-12">
+				<%= f.label "Interest Rate" %>
+				<%= f.input :interest_rate, label: false, class: "form-control" %>
+			</div>
+		    <div class="col-12 mb-2 field form-check">
+			    <%= f.check_box :active, class: "form-check-input", id: "published" %>
+			    <%= f.label "This is an active loan", class: "form-check-label", for: "published" %>
+		    </div>
+			<div class="form-group col-12">
+				<%= f.label "Admin Notes" %>
+				<%= f.text_area :admin_notes, label: false, class: "form-control" %>
+			</div>
+		</div>
+	</div> <!-- modal body -->
+
+
+	<div class="modal-footer form-actions">
+		<button type="button" class="btn btn-grey" data-dismiss="modal">Close</button>
+		<%= f.submit "Save", class: "btn btn-blue" %>
+	</div> <!-- modal footer -->
+
+<% end %>

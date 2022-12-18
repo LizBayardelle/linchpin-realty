@@ -1,0 +1,75 @@
+<nav class="breadcrumbs">
+  <%= link_to "My Portal", user_path(current_user) %>
+  &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+  My Documents Manager
+</nav>
+
+
+<main class="my-4 container">
+
+  <header class="row mb-4">
+    <div class="col-sm-6 text-center text-sm-left">
+      <h1 class="mb-0 pb-0">My Documents Manager</h1>
+      <p>
+        <span class="bolder">Documents for <%= current_user.full_name %></span>
+      </p>
+    </div> <!-- col -->
+    <div class="col-sm-6 text-center text-sm-right">
+      <button type="button" class="btn btn-blue-dark btn-sm" data-toggle="modal" data-target="#newDocumentModal">
+        Upload a New Document
+      </button>
+    </div> <!-- col -->   
+  </header>
+  <%= render partial: "documents/modal_new", locals: { document: Document.new } %>
+
+
+  <section class="row">
+    <div class="col-12">
+      <% if @documents.count != 0 %>
+        <table class="table basic-table table-hover">
+          <thead>
+            <tr>
+              <th class="text-center" scope="col" style="max-width: 40px">Received?</th>
+              <th class="text-center" scope="col" style="max-width: 40px">File</th>
+              <th scope="col">Date</th>
+              <th scope="col">Title</th>
+              <th scope="col">For Loan</th>
+              <th scope="col">Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @documents.order(created_at: :asc).each do |document| %>
+              <tr style="vertical-align:top">
+                <td class="text-center" style="max-width: 40px">
+                  <% if document.received %>
+                    <i class="fas fa-check-circle color-green"></i>
+                  <% end %>
+                </td>
+                <td class="text-center" style="max-width: 40px">
+                  <% if document.upload.attached? %>
+                    <a href="<%= rails_blob_path(document.upload) %>" target="_blank">
+                      <i class="fas fa-file"></i>
+                    </a>
+                  <% end %>
+                </td>
+                <td><%= document.created_at.strftime('%m/%d/%Y') %></td>
+                <td><%= document.name %></td>
+                <td>
+                  <% if document.loan %>
+                    <%= document.loan.loan_identifier %>
+                  <% end %>
+                </td>
+                <td><%= document.notes %></td>
+              </tr>
+            <% end %>
+
+          </tbody>
+        </table>
+      <% else %>
+        <p>You currently have no uploaded documents.</p>
+      <% end %>
+
+    </div> <!-- col -->
+  </section>
+
+</main>

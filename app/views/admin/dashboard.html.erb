@@ -1,0 +1,85 @@
+<nav class="breadcrumbs">
+  Admin Dashboard
+</nav>
+
+
+<main class="my-5 container font-sans">
+
+	<header class="text-center mb-4">
+		<h1>Admin Dashboard</h1>
+	</header>
+
+	<section class="row pb-5">
+
+		<div class="col-sm-4">
+			<div class="h-100">
+				<h2>Active Loans</h2>
+				<table class="table basic-table">
+					<tbody>
+						<% @loans.each do |loan| %>
+							<tr>
+								<td>
+									<% if loan.user %>
+										<i class="fas fa-link ml-1 color-red"></i>
+									<% end %>
+								</td>
+								<td><%= link_to loan.name_identifier, loan_path(loan) %></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			<%= link_to "See All Loans", admin_loans_path, class: "btn btn-blue-dark btn-sm" %>
+		</div> <!-- col -->
+
+		<div class="col-sm-4">
+			<div class="h-100">
+				<h2>Recent Docs</h2>
+				<table class="table basic-table">
+					<tbody>
+						<% @documents.each do |document| %>
+							<tr>
+	              <td class="text-center" style="max-width: 40px">
+	                <% if document.received %>
+	                  <i class="fas fa-check-circle color-green"></i>
+	                <% else %>
+	                  <%= link_to mark_received_path(document), method: :post do %>
+	                    <i class="far fa-check-circle color-green"></i>
+	                  <% end %>
+	                <% end %>
+	              </td>
+								<td>
+									<% if document.upload.attached? %>
+	                    <a href="<%= rails_blob_path(document.upload) %>" target="_blank">
+	                      <i class="fas fa-file"></i>
+	                    </a>
+	                  <% end %>
+								</td>
+	              <td><%= document.name %></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			<%= link_to "See All Documents", admin_documents_path, class: "btn btn-blue-dark btn-sm" %>
+		</div> <!-- col -->
+
+		<div class="col-sm-4">
+			<div class="h-100">
+				<h2>Current Clients</h2>
+				<table class="table basic-table">
+					<tbody>
+						<% @clients.each do |client| %>
+							<tr>
+	              <td><%= link_to client.last_first, user_path(client) %></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			<%= link_to "See All Clients", admin_clients_path, class: "btn btn-blue-dark btn-sm" %>
+		</div> <!-- col -->
+
+	</section>
+
+</main>

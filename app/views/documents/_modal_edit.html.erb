@@ -1,0 +1,21 @@
+<div class="modal fade" id="editDocument<%= document.id %>Modal" tabindex="-1" role="dialog" aria-labelledby="editDocument<%= document.id %>ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editDocument<%= document.id %>ModalLabel">Edit Document</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <%= render partial: "documents/modal_innards", locals: { document: document } %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+	$(".input-group-btn").addClass("hidden");
+});
+</script>

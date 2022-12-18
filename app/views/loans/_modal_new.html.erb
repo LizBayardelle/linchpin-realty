@@ -1,0 +1,21 @@
+<div class="modal fade" id="newLoanModal" tabindex="-1" role="dialog" aria-labelledby="newLoanModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newLoanModalLabel">Add a New Loan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <%= render partial: "loans/modal_innards", locals: { loan: loan } %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+	$(".input-group-btn").addClass("hidden");
+});
+</script>

@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :blogs
   has_many :values
+  has_many :loans
+  has_many :documents
+  
   after_create :send_email
 
   def reset_confirmed
@@ -21,4 +24,9 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
   
+  def last_first
+    "#{last_name}, #{first_name}"
+  end
+
+
 end
