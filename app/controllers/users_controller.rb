@@ -28,7 +28,7 @@ class UsersController < ApplicationController
       else
         flash[:error] = "Error"
       end
-     redirect_to user_path(current_user)
+     redirect_to admin_clients_path
     end
   end
 

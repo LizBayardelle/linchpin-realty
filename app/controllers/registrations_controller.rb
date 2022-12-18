@@ -1,7 +1,11 @@
 class RegistrationsController < Devise::RegistrationsController
   invisible_captcha only: [:create], honeypot: :subtitle
 
-
+  def create
+    super
+    rescue Exception => e
+    flash[:notice] = e.message
+  end
 
   private
 
