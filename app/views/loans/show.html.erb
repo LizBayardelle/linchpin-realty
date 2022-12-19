@@ -57,7 +57,7 @@
 						<th scope="col" class="text-right">Invoices</th>
 						<th scope="col" class="text-right">Payments</th>
 						<th scope="col" class="text-right">Loan Balance</th>
-						<%= if current_user && current_user.admin %>
+						<% if current_user && current_user.admin %>
 							<th scope="col"></th>
 						<% end %>
 					</tr>
@@ -80,7 +80,7 @@
 							<td class="color-red text-right"><%= payment.due_or_paid == "Due" ? "-" + number_to_currency(payment.amount) : '<i class="fas fa-window-minimize color-grey-light"></i>'.html_safe %></td>
 							<td class="color-green text-right"><%= payment.due_or_paid == "Paid" ? number_to_currency(payment.amount) : '<i class="fas fa-window-minimize color-grey-light"></i>'.html_safe %></td>
 							<td class=" text-right">-<%= number_to_currency(payment.loan_balance_as_of) %></td>
-							<%= if current_user && current_user.admin %>
+							<% if current_user && current_user.admin %>
 								<td>
 									<!-- EDIT -->
 									<span data-toggle="modal" data-target="#editPayment<%= payment.id %>Modal" class="pointer">
