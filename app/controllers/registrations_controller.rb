@@ -3,6 +3,7 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     super
+    # UserMailer.new_user(self).deliver_now
     rescue Exception => e
     flash[:notice] = e.message
   end
