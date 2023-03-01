@@ -7,14 +7,80 @@
 
 <main class="my-4 container">
 
-<!-- CURRENT CLIENTS -->
 
-
-
-<!-- ALL USERS -->
+<!-- TEAM MEMBERS -->
   <section class="row justify-content-center">
     <div class="col-12">
-      <h2>All Registered Users</h2>
+      <h2 class="mt-4">Team Members</h2>
+      <table class="table basic-table table-hover">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center">ID</th>
+            <th scope="col" class="text-center">Access</th>                     
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Clients</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @teams.each do |user| %>
+            <tr>
+              <td class="text-center"><%= user.id %></td>
+              <td class="text-center">
+                <i data-toggle="modal" data-target="#access<%= user.id %>Modal" class="fas fa-people-arrows"></i>
+              </td>              
+              <td><%= link_to user.full_name, user_path(user) %></td>
+              <td><%= user.email %></td>
+              <td>
+                <% user.users.each do |client| %>
+                  <%= link_to client.full_name, user_path(client) %><br>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to "<i class='fas fa-minus-square mr-1'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
+                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope'></i></a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div> <!-- col -->
+  </section>
+
+  <!-- ACCESS MODALS -->
+    <% @teams.each do |user| %>
+      <div class="modal fade" id="access<%= user.id %>Modal" tabindex="-1" role="dialog" aria-labelledby="access<%= user.id %>ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="access<%= user.id %>ModalLabel">
+                <%= user.first_name %>'s Clients
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer text-left">
+              <%= link_to "Remove from Team", unmake_team_path(user), method: :post, class: "btn btn-red"  %>
+              <button type="button" class="btn btn-grey" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <!-- ACCESS MODAL -->
+
+<!-- TEAM MEMBERS -->
+
+
+
+<!-- CURRENT CLIENTS -->
+  <section class="row justify-content-center">
+    <div class="col-12">
+      <h2 class="mt-4">Current Clients</h2>
       <table class="table basic-table table-hover">
         <thead>
           <tr>
@@ -26,9 +92,53 @@
           </tr>
         </thead>
         <tbody>
-          <% User.all.each do |user| %>
+          <% @clients.each do |user| %>
             <tr>
               <td><%= user.id %></td>
+              <td><%= link_to user.full_name, user_path(user) %></td>
+              <td><%= user.email %></td>
+              <td><%= user.phone %></td>
+              <td><%= user.created_at.strftime('%m/%d/%Y') %></td>
+              <td>
+                <%= link_to "<i class='fas fa-minus-square mr-1'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
+                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope'></i></a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div> <!-- col -->
+  </section>
+<!-- CURRENT CLIENTS -->
+
+
+
+
+<!-- ALL USERS -->
+  <section class="row justify-content-center">
+    <div class="col-12">
+      <h2 class="mt-4">Other Users</h2>
+      <table class="table basic-table table-hover">
+        <thead>
+          <tr>
+            <th scope="col" class="text-center">ID</th>
+            <th scope="col" class="text-center">Team</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Created</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @non_clients.each do |user| %>
+            <tr>
+              <td class="text-center"><%= user.id %></td>
+              <td class="text-center">
+                <% if !user.team %>
+                  <%= link_to "<i class='fas fa-user-plus'></i>".html_safe, make_team_path(user), method: :post %>
+                <% end %>
+              </td>
+              <td><%= user.email %></td>
               <td><%= link_to user.full_name, user_path(user) %></td>
               <td><%= user.email %></td>
               <td><%= user.phone %></td>

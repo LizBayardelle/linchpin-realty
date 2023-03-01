@@ -1,0 +1,2 @@
+class TeamAssignment < ApplicationRecord
+end

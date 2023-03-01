@@ -32,6 +32,30 @@ class UsersController < ApplicationController
     end
   end
 
+
+  def make_team
+      @client = User.find(params[:id])
+      if @client.update_attributes(team: true)
+          redirect_back fallback_location: admin_clients_path
+          flash[:notice] = "That user is now a team member."
+      else
+          redirect_to admin_clients_path
+          flash[:warning] = "Oops! Something went wrong!"
+      end
+  end
+
+  def unmake_team
+      @client = User.find(params[:id])
+      if @client.update_attributes(team: false)
+          redirect_back fallback_location: admin_clients_path
+          flash[:notice] = "That user is no longer a team member."
+      else
+          redirect_to admin_clients_path
+          flash[:warning] = "Oops! Something went wrong!"
+      end
+  end
+
+
   def confirm_client
       @client = User.find(params[:id])
       if @client.update_attributes(status_confirmed: true)

@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   post "user/:id/unconfirm" => "users#unconfirm_client", as: "unconfirm_client"
   post "user/:id/client_read" => "users#client_read", as: "client_read"
   post "user/:id/client_unread" => "users#client_unread", as: "client_unread"
+  post "user/:id/make_team" => "users#make_team", as: "make_team"
+  post "user/:id/unmake_team" => "users#unmake_team", as: "unmake_team"
+
 
   get 'admin/dashboard'
   get 'admin/loans'

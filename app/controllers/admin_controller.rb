@@ -27,7 +27,9 @@ class AdminController < ApplicationController
   end
 
   def clients
+    @teams = User.where(team: true)
     @clients = User.where(current_client: true)
+    @non_clients = User.where(team: false, current_client: false)
   end
 
   def documents

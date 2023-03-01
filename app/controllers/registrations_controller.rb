@@ -23,7 +23,10 @@ class RegistrationsController < Devise::RegistrationsController
       :blog_emails,
       :preferred_contact,
       :status_confirmed,
-      :current_client
+      :current_client,
+      :team,
+      :team_id,
+      :client_id
     )
   end
 
@@ -41,7 +44,10 @@ class RegistrationsController < Devise::RegistrationsController
       :blog_emails,
       :preferred_contact,
       :status_confirmed,
-      :current_client
+      :current_client,
+      :team,
+      :team_id,
+      :client_id
     )
   end
 end
