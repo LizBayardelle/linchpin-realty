@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   post "user/:id/client_unread" => "users#client_unread", as: "client_unread"
   post "user/:id/make_team" => "users#make_team", as: "make_team"
   post "user/:id/unmake_team" => "users#unmake_team", as: "unmake_team"
+  post "user/:id/make_client" => "users#make_client", as: "make_client"
+  post "user/:id/unmake_client" => "users#unmake_client", as: "unmake_client"
 
 
   get 'admin/dashboard'

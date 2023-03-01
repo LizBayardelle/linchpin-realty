@@ -15,17 +15,17 @@
       <table class="table basic-table table-hover">
         <thead>
           <tr>
-            <th scope="col" class="text-center">ID</th>
             <th scope="col" class="text-center">Access</th>                     
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Clients</th>
+            <th scope="col">Actions</th>
+            <th scope="col" class="text-center">ID</th>
           </tr>
         </thead>
         <tbody>
           <% @teams.each do |user| %>
             <tr>
-              <td class="text-center"><%= user.id %></td>
               <td class="text-center">
                 <i data-toggle="modal" data-target="#access<%= user.id %>Modal" class="fas fa-people-arrows"></i>
               </td>              
@@ -37,9 +37,11 @@
                 <% end %>
               </td>
               <td>
-                <%= link_to "<i class='fas fa-minus-square mr-1'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
-                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope'></i></a>
+                <i data-toggle="modal" data-target="#permissions<%= user.id %>Modal" class='fas fa-user-cog mx-1 linkish'></i>
+                <%= link_to "<i class='fas fa-minus-square mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
+                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
               </td>
+              <td class="text-center"><%= user.id %></td>
             </tr>
           <% end %>
         </tbody>
@@ -100,8 +102,9 @@
               <td><%= user.phone %></td>
               <td><%= user.created_at.strftime('%m/%d/%Y') %></td>
               <td>
-                <%= link_to "<i class='fas fa-minus-square mr-1'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
-                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope'></i></a>
+                <i data-toggle="modal" data-target="#permissions<%= user.id %>Modal" class='fas fa-user-cog mx-1 linkish'></i>
+                <%= link_to "<i class='fas fa-minus-square mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
+                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
               </td>
             </tr>
           <% end %>
@@ -122,7 +125,6 @@
         <thead>
           <tr>
             <th scope="col" class="text-center">ID</th>
-            <th scope="col" class="text-center">Team</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
@@ -133,19 +135,15 @@
           <% @non_clients.each do |user| %>
             <tr>
               <td class="text-center"><%= user.id %></td>
-              <td class="text-center">
-                <% if !user.team %>
-                  <%= link_to "<i class='fas fa-user-plus'></i>".html_safe, make_team_path(user), method: :post %>
-                <% end %>
-              </td>
               <td><%= user.email %></td>
               <td><%= link_to user.full_name, user_path(user) %></td>
               <td><%= user.email %></td>
               <td><%= user.phone %></td>
               <td><%= user.created_at.strftime('%m/%d/%Y') %></td>
               <td>
-                <%= link_to "<i class='fas fa-minus-square mr-1'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
-                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope'></i></a>
+                <i data-toggle="modal" data-target="#permissions<%= user.id %>Modal" class='fas fa-user-cog mx-1 linkish'></i>
+                <%= link_to "<i class='fas fa-minus-square mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
+                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
               </td>
             </tr>
           <% end %>
@@ -154,5 +152,41 @@
     </div> <!-- col -->
   </section>
 
+
+
+  <!-- PERMISSIONS MODALS -->
+    <% User.all.each do |user| %>
+      <div class="modal fade" id="permissions<%= user.id %>Modal" tabindex="-1" role="dialog" aria-labelledby="permissions<%= user.id %>ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="permissions<%= user.id %>ModalLabel">
+                User Permissions
+              </h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <% if user.team %>
+                <%= link_to "Remove from Team", unmake_team_path(user), method: :post, class: "btn btn-red"  %>
+              <% else %>
+                <%= link_to "Add to Team", make_team_path(user), method: :post, class: "btn btn-red"  %>
+              <% end %>
+
+              <% if user.current_client %>
+                <%= link_to "No Longer a Client", unmake_client_path(user), method: :post, class: "btn btn-red"  %>
+              <% else %>
+                <%= link_to "Mark as Current Client", make_client_path(user), method: :post, class: "btn btn-red"  %>
+              <% end %>
+            </div>
+            <div class="modal-footer text-left">
+              <button type="button" class="btn btn-grey" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <!-- PERMISSIONS MODAL -->
 
 </main>
