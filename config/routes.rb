@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  get 'team/dashboard'
+  get 'team/clients'
+  get 'team/documents'
+  get 'team/loans'
   resources :home, only: [:index]
   root "home#index"
 

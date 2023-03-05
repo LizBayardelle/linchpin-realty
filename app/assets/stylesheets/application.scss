@@ -49,6 +49,7 @@ $blue-light: #4D7EA8 !important;
 $red: #890E05 !important;
 $grey-dark: #393939 !important;
 $grey-light: #A2A2A2 !important;
+$grey-extra-light: #E5E4E2 !important;
 $color-green: #1e4620 !important;
 $creme: #C0C0C0 !important;
 $creme-background: #acacac !important;
@@ -542,6 +543,19 @@ select#contact_preferred_contact, select#contact_purpose, select#value_sell_time
 
 .mini-subscriber-form.dark .md-form .form-control {
   color: white !important;
+}
+
+.form-check span {
+	display: block;
+}
+
+.original-form .form-check-input {
+	opacity: 100 !important;
+	pointer-events: fill !important;
+}
+
+.original-form .waves-effect {
+	overflow: visible !important;
 }
 
 

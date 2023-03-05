@@ -1,0 +1,96 @@
+<nav class="breadcrumbs">
+  <%= link_to "Team Dashboard", team_dashboard_path %>
+  &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+  Loan Manager
+</nav>
+
+
+<% visible_loans = [] %>
+<% @loans.each do |loan| %>
+	<% if loan.user != nil && ( current_user.user_ids.include? loan.user_id ) %> 
+		<% visible_loans << loan %>
+	<% end %>
+<% end %>
+
+
+
+<main class="my-4 container">
+
+	<header class="row mb-4">
+		<div class="col-sm-6 text-center text-sm-left">
+		  <h1 class="mb-0 pb-0">Client Loans</h1>
+		  <p>
+		    <span class="bolder">Current Client Loans (for <%= current_user.full_name %>)</span>
+		  </p>
+		</div> <!-- col -->
+		<div class="col-sm-6 text-center text-sm-right">
+<!-- 			
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newLoanModal">
+		  Add a New Loan
+		</button> 
+-->
+		</div> <!-- col -->   
+	</header>
+	<%= render partial: "loans/modal_new", locals: { loan: Loan.new } %>
+
+
+
+	<section class="row justify-content-center">
+		<div class="col-12">
+			<% if visible_loans.count == 0 %>
+				<p>Right now there are no loans assigned to your current clients.</p>
+			<% else %>
+				<table class="table basic-table table-hover">
+					<thead>
+						<tr>
+							<th scope="col"></th>
+							<th scope="col">Client</th>
+							<th scope="col">Program</th>
+							<th scope="col">Loan Status</th>
+							<th scope="col">Dates</th>
+							<th scope="col">Term</th>
+							<th scope="col">Amount</th>
+							<th scope="col">Rate</th>
+							<th scope="col">Actions</th>						
+						</tr>
+					</thead>
+					<tbody>
+						<% visible_loans.each do |loan| %>
+							<tr>
+								<td>
+									<% if loan.user %>
+										<i class="fas fa-link ml-1 color-red"></i>
+									<% end %>
+								</td>
+								<td class="bolder"><%= link_to loan.client_last_name, loan_path(loan) %></td>
+								<td><%= loan.program %></td>
+								<td><%= loan.active ? "Active" : "Completed" %></td>
+								<td>
+									<% unless loan.first_payment == nil || loan.last_payment == nil %>
+										<%= loan.first_payment.strftime('%m/%d/%Y') %> - <%= loan.last_payment.strftime('%m/%d/%Y') %>
+									<% end %>
+								</td>								<td><%= loan.term_months %> Months</td>
+								<td><%= number_to_currency(loan.principal) %></td>
+								<td><%= loan.interest_rate %>%</td>
+								<td>
+									<!-- EDIT -->
+									<span data-toggle="modal" data-target="#editLoan<%= loan.id %>Modal" class="pointer">
+									  <i class="fas fa-pen mr-1"></i>
+									</span>
+									<%= render partial: "loans/modal_edit", locals: { loan: loan } %>
+
+									<!-- DELETE -->
+						            <%= link_to "<i class='fas fa-minus-square mr-1'></i>".html_safe, loan_path(loan), method: :delete, data: {confirm: "Are you sure you want to delete that loan?"} %>
+
+									<!-- EMAIL -->
+									<a href="mailto:<%= loan.client_email %>" target="_blank"><i class='fas fa-envelope'></i></a>
+								</td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			<% end %>
+		</div> <!-- col -->
+	</section>
+
+</main>

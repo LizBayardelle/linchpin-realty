@@ -1,9 +1,20 @@
 <% if current_user && current_user.admin %>
 	<nav class="breadcrumbs">
-	  <%= link_to "Admin Dashboard", admin_dashboard_path %>
+		<% if current_user.admin %>
+		  <%= link_to "Admin Dashboard", admin_dashboard_path %>
+		<% elsif current_user.team %>
+		  <%= link_to "Team Dashboard", team_dashboard_path %>
+		<% else %>
+		  <%= link_to "#{ user.first_name }'s Dashboard", user_path(current_user) %>
+		<% end %>
 	  &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
-	  <%= link_to "Loan Manager", admin_loans_path %>
-  	  &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+	  <% if current_user.admin %>
+		  <%= link_to "Loan Manager", admin_loans_path %>
+	  	  &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+  	  <% elsif current_user.team %>
+  	  	  <%= link_to "Loan Manager", team_loans_path %>
+	  	  &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+  	  <% end %>
   	  <%= @loan.name_identifier %>
 	</nav>
 <% else %>
@@ -21,7 +32,7 @@
 		<div class="col-sm-6 text-center text-sm-left">
 			<h1 class="mb-0 pb-0">Account Details</h1>
 			<p>
-				<span class="bolder"><%= @loan.loan_identifier %> Loan</span>
+				<span class="bolder"><%= @loan.loan_identifier %></span>
 				<br><%= @loan.first_payment.strftime("%m/%Y") %> - <%= @loan.last_payment.strftime("%m/%Y") %> (<%= pluralize(@loan.term_months, "Month") %>)
 			</p>
 			<% if current_user && current_user.admin %>

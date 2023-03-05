@@ -8,6 +8,16 @@ class RegistrationsController < Devise::RegistrationsController
     flash[:notice] = e.message
   end
 
+  protected
+
+  def update_resource(resource, params)
+    # Require current password if user is trying to change password.
+    return super if params["password"]&.present?
+
+    # Allows user to update registration information without password.
+    resource.update_without_password(params.except("current_password"))
+  end
+
   private
 
   def sign_up_params
@@ -26,7 +36,8 @@ class RegistrationsController < Devise::RegistrationsController
       :current_client,
       :team,
       :team_id,
-      :client_id
+      :client_id,
+      user_ids: []
     )
   end
 
@@ -47,7 +58,8 @@ class RegistrationsController < Devise::RegistrationsController
       :current_client,
       :team,
       :team_id,
-      :client_id
+      :client_id,
+      user_ids: []
     )
   end
 end

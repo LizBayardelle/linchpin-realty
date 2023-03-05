@@ -21,7 +21,7 @@
     <% @clients.each do |client| %>
       <div class="col-12">
         <% if client.documents.count != 0 %>
-          <h2><%= client.last_first %></h2>
+          <h2><%= client.last_first %> (<%= client.documents.count %>)</h2>
           <table class="table basic-table table-hover">
             <tbody>
               <% client.documents.order(created_at: :asc).each do |document| %>
@@ -35,7 +35,7 @@
                       <% end %>
                     <% end %>
                   </td>
-                  <td class="text-center" style="max-width: 40px">
+                  <td class="text-center" style="width: 40px">
                     <% if document.upload.attached? %>
                       <a href="<%= rails_blob_path(document.upload) %>" target="_blank">
                         <i class="fas fa-file"></i>

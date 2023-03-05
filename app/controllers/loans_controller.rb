@@ -1,6 +1,6 @@
 class LoansController < ApplicationController
   before_action :set_loan, only: %i[ show edit update destroy ]
-  before_action :client_or_admin, only: :show
+  before_action :client_team_or_admin, only: :show
 
   def show
   end
@@ -57,8 +57,8 @@ class LoansController < ApplicationController
 
   private
 
-    def client_or_admin
-      unless current_user && ( current_user.admin || current_user == @loan.user )
+    def client_team_or_admin
+      unless current_user && ( current_user.admin || current_user.team || current_user == @loan.user )
         redirect_back fallback_location: root_path
         flash[:notice] = "Sorry, you don't have the permissions to view that page.  If you think you have gotten this message in error, please contact the site administrator at admin@LinchpinRealty.com."
       end

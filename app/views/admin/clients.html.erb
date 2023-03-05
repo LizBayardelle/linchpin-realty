@@ -19,7 +19,7 @@
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Clients</th>
-            <th scope="col">Actions</th>
+            <th scope="col" class="text-center">Actions</th>
             <th scope="col" class="text-center">ID</th>
           </tr>
         </thead>
@@ -36,7 +36,7 @@
                   <%= link_to client.full_name, user_path(client) %><br>
                 <% end %>
               </td>
-              <td>
+              <td class="text-center">
                 <i data-toggle="modal" data-target="#permissions<%= user.id %>Modal" class='fas fa-user-cog mx-1 linkish'></i>
                 <%= link_to "<i class='fas fa-minus-square mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
                 <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
@@ -51,7 +51,7 @@
 
   <!-- ACCESS MODALS -->
     <% @teams.each do |user| %>
-      <div class="modal fade" id="access<%= user.id %>Modal" tabindex="-1" role="dialog" aria-labelledby="access<%= user.id %>ModalLabel" aria-hidden="true">
+      <div class="modal fade original-form" id="access<%= user.id %>Modal" tabindex="-1" role="dialog" aria-labelledby="access<%= user.id %>ModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -62,13 +62,32 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
-              ...
-            </div>
-            <div class="modal-footer text-left">
-              <%= link_to "Remove from Team", unmake_team_path(user), method: :post, class: "btn btn-red"  %>
-              <button type="button" class="btn btn-grey" data-dismiss="modal">Close</button>
-            </div>
+            <%= simple_form_for(user, :url => user_registration_path, method: :patch) do |f| %>
+              <div class="modal-body">
+                <%= f.error_notification %>
+                <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+                <div class="form-inputs row mx-3 mb-5">
+                  <div class="col-12">
+                    <h2 class="color-red">Clients</h2>
+                      <div class="field form-check">
+                        <%= f.collection_check_boxes(:user_ids, User.all, :id, :full_name ) %>
+                      </div>
+                  </div>
+
+                  <div class="col-12 mt-4">
+                    <h2 class="color-red">Other Actions</h2>
+                    <%= link_to "Remove #{ user.first_name } as a team member.", unmake_team_path(user), method: :post  %>
+                  </div>
+
+                  <div class="col-12">
+                    <%= f.submit "Save", class: "btn btn-blue" %>
+                  </div>
+                </div> <!-- row -->
+
+              </div>
+
+            <% end %>
           </div>
         </div>
       </div>
@@ -86,26 +105,50 @@
       <table class="table basic-table table-hover">
         <thead>
           <tr>
-            <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
-            <th scope="col">Created</th>
+            <th scope="col">Client Since</th>
+            <th scope="col">Loans</th>
+            <th scope="col">Documents</th>
+            <th scope="col" class="text-center">Actions</th>
+            <th scope="col" class="text-center">ID</th>
           </tr>
         </thead>
         <tbody>
           <% @clients.each do |user| %>
+
+            <% client_loans = [] %>
+            <% Loan.all.each do |loan| %>
+              <% if loan.user != nil && loan.user_id == user.id %> 
+                <% client_loans << loan %>
+              <% end %>
+            <% end %>
+
+            <% client_documents = [] %>
+            <% Document.all.each do |document| %>
+              <% if document.user != nil && document.user_id == user.id %> 
+                <% client_documents << document %>
+              <% end %>
+            <% end %>
+
             <tr>
-              <td><%= user.id %></td>
               <td><%= link_to user.full_name, user_path(user) %></td>
               <td><%= user.email %></td>
               <td><%= user.phone %></td>
               <td><%= user.created_at.strftime('%m/%d/%Y') %></td>
               <td>
+                <% client_loans.each do |loan| %>
+                  <%= link_to loan.program, loan_path(loan) %><br>
+                <% end %>
+              </td>
+              <td><%= link_to pluralize(client_documents.count, "Document"), team_documents_path %></td>
+              <td class="text-center">
                 <i data-toggle="modal" data-target="#permissions<%= user.id %>Modal" class='fas fa-user-cog mx-1 linkish'></i>
                 <%= link_to "<i class='fas fa-minus-square mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
                 <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
               </td>
+              <td class="text-center"><%= user.id %></td>
             </tr>
           <% end %>
         </tbody>
@@ -120,31 +163,31 @@
 <!-- ALL USERS -->
   <section class="row justify-content-center">
     <div class="col-12">
-      <h2 class="mt-4">Other Users</h2>
+      <h2 class="mt-4">Other Website Users</h2>
       <table class="table basic-table table-hover">
         <thead>
           <tr>
-            <th scope="col" class="text-center">ID</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
-            <th scope="col">Created</th>
+            <th scope="col">Account Created</th>
+            <th scope="col" class="text-center">Actions</th>
+            <th scope="col" class="text-center">ID</th>
           </tr>
         </thead>
         <tbody>
           <% @non_clients.each do |user| %>
             <tr>
-              <td class="text-center"><%= user.id %></td>
-              <td><%= user.email %></td>
               <td><%= link_to user.full_name, user_path(user) %></td>
               <td><%= user.email %></td>
               <td><%= user.phone %></td>
               <td><%= user.created_at.strftime('%m/%d/%Y') %></td>
-              <td>
+              <td class="text-center">
                 <i data-toggle="modal" data-target="#permissions<%= user.id %>Modal" class='fas fa-user-cog mx-1 linkish'></i>
                 <%= link_to "<i class='fas fa-minus-square mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
                 <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
               </td>
+              <td class="text-center"><%= user.id %></td>
             </tr>
           <% end %>
         </tbody>
@@ -190,3 +233,20 @@
   <!-- PERMISSIONS MODAL -->
 
 </main>
+
+
+
+<script type="text/javascript">
+  $(document).ready(function() { 
+    $("input").addClass("form-check-input");
+    $(".collection_check_boxes").addClass("form-check-label");
+  });
+</script>
+
+
+
+
+
+
+
+

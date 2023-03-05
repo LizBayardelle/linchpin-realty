@@ -41,9 +41,6 @@
       </li>
 
 
-      <li class="nav-item">
-        <%= link_to 'Resources', resources_path, class: "nav-link" %>
-      </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
@@ -54,24 +51,72 @@
         </div>
       </li>
 
+      <!-- ADMIN DASHBOARD -->
       <% if current_user && current_user.admin %>
         <li class="nav-item dropdown">
-          <%= link_to "Admin", admin_dashboard_path, class: "nav-link dropdown-toggle", id: "navbarDropdownMenuLink-4", data: { toggle: "dropdown" },
+          <%= link_to "<i class='fas fa-user-shield mr-1'></i>Admin".html_safe, admin_dashboard_path, class: "nav-link dropdown-toggle", id: "navbarDropdownMenuLink-4", data: { toggle: "dropdown" },
             aria: { haspopup: "true", expanded: "false" } %>
           <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
             <%= link_to "Admin Dashboard", admin_dashboard_path, class: "dropdown-item" %>
-            <%= link_to "Loans", admin_loans_path, class: "dropdown-item" %>
-            <%= link_to "Documents", admin_documents_path, class: "dropdown-item" %>
-            <%= link_to "Clients", admin_clients_path, class: "dropdown-item" %>
+            <%= link_to "All Loans", admin_loans_path, class: "dropdown-item" %>
+            <%= link_to "All Documents", admin_documents_path, class: "dropdown-item" %>
+            <%= link_to "All Clients", admin_clients_path, class: "dropdown-item" %>
             <%#= link_to "Blog Manager", admin_blogs_path, class: "dropdown-item" %>
           </div>
         </li>
       <% end %>
+      <!-- ADMIN DASHBOARD -->
+
+
+      <% visible_loans = [] %>
+      <% Loan.all.each do |loan| %>
+        <% if loan.user != nil && ( current_user.user_ids.include? loan.user_id ) %> 
+          <% visible_loans << loan %>
+        <% end %>
+      <% end %>
+
+      <% visible_docs = [] %>
+      <% Document.all.each do |doc| %>
+        <% if doc.user != nil && ( current_user.user_ids.include? doc.user_id ) %> 
+          <% visible_docs << doc %>
+        <% end %>
+      <% end %>
+
+      <% visible_clients = [] %>
+      <% User.where(current_client: true).each do |client| %>
+        <% if current_user.user_ids.include? client.id %> 
+          <% visible_clients << client %>
+        <% end %>
+      <% end %>
+
+      <!-- TEAM DASHBOARD -->
+      <% if current_user && current_user.team %>
+        <li class="nav-item dropdown">
+          <%= link_to "<i class='fas fa-user-tie mr-1'></i>Team".html_safe, team_dashboard_path, class: "nav-link dropdown-toggle", id: "navbarDropdownMenuLink-4", data: { toggle: "dropdown" },
+            aria: { haspopup: "true", expanded: "false" } %>
+          <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
+            <%= link_to "Team Dashboard", team_dashboard_path, class: "dropdown-item" %>
+            <% if visible_loans.count != 0 %>
+              <%= link_to "Client Loans", team_loans_path, class: "dropdown-item" %>
+            <% end %>
+            <% if visible_loans.count != 0 %>
+              <%= link_to "Client Documents", team_documents_path, class: "dropdown-item" %>
+            <% end %>
+            <% if visible_clients.count != 0 %>
+              <%= link_to "My Clients", team_clients_path, class: "dropdown-item" %>
+            <% end %>
+          </div>
+        </li>
+      <% end %>
+      <!-- TEAM DASHBOARD -->
+
+
+      <!-- USER DASHBOARD -->
       <% if current_user %>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-4" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            My Portal</a>
+            <i class="fas fa-user mr-1"></i><%= current_user.first_name %>'s Portal</a>
           <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
             <%= link_to 'My Documents', documents_path, class: "dropdown-item" %>           
             <% Loan.where(user_id: current_user.id).each do |loan| %>
@@ -92,6 +137,8 @@
           </div>
         </li>
       <% end %>
+      <!-- USER DASHBOARD -->
+
 
     </ul>
   </div>

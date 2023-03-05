@@ -1,5 +1,5 @@
-class AdminController < ApplicationController
-  before_action :admin_only
+class TeamController < ApplicationController
+  before_action :team_only
   
   def dashboard
     @loans = Loan.where(active: true)
@@ -23,9 +23,6 @@ class AdminController < ApplicationController
     @past_loans = Loan.where(active: false).order("first_payment DESC")
   end
 
-  def blogs
-  end
-
   def clients
     @teams = User.where(team: true)
     @clients = User.where(current_client: true)
@@ -42,6 +39,4 @@ class AdminController < ApplicationController
     end
     @clients.sort_by{|e| e[:last_first]}
   end
-
-  
 end

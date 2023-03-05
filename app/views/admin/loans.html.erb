@@ -9,9 +9,9 @@
 
 	<header class="row mb-4">
 		<div class="col-sm-6 text-center text-sm-left">
-		  <h1 class="mb-0 pb-0">Loan Manager</h1>
+		  <h1 class="mb-0 pb-0">Admin Loan Manager</h1>
 		  <p>
-		    <span class="bolder">Table of All Loans (Current and Archived)</span>
+		    <span class="bolder">All Loans (Current and Archived)</span>
 		  </p>
 		</div> <!-- col -->
 		<div class="col-sm-6 text-center text-sm-right">
@@ -37,6 +37,7 @@
 						<th scope="col">Term</th>
 						<th scope="col">Amount</th>
 						<th scope="col">Rate</th>
+						<th scope="col">Team</th>						
 						<th scope="col">Actions</th>						
 					</tr>
 				</thead>
@@ -51,10 +52,19 @@
 							<td class="bolder"><%= link_to loan.client_last_name, loan_path(loan) %></td>
 							<td><%= loan.program %></td>
 							<td><%= loan.active ? "Active" : "Completed" %></td>
-							<td><%= loan.first_payment.strftime('%m/%d/%Y') %> - <%= loan.last_payment.strftime('%m/%d/%Y') %></td>
+							<td>
+								<% unless loan.first_payment == nil || loan.last_payment == nil %>
+									<%= loan.first_payment.strftime('%m/%d/%Y') %> - <%= loan.last_payment.strftime('%m/%d/%Y') %>
+								<% end %>
+							</td>
 							<td><%= loan.term_months %> Months</td>
 							<td><%= number_to_currency(loan.principal) %></td>
 							<td><%= loan.interest_rate %>%</td>
+							<td>
+								<% User.where(team: true).each do |team| %>
+									<%= team.first_name %><br>
+								<% end %>
+							</td>
 							<td>
 								<!-- EDIT -->
 								<span data-toggle="modal" data-target="#editLoan<%= loan.id %>Modal" class="pointer">
