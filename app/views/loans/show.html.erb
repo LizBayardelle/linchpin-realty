@@ -52,10 +52,18 @@
 			<% if current_user && current_user == @loan.user %>
 				<%= link_to "Payment Instructions", page_path("instructions"), class: "btn btn-grey btn-sm" %>
 			<% end %>
+
+			<% if current_user && current_user.admin %>
+				<button data-toggle="modal" data-target="#editLoan<%= @loan.id %>Modal" class="btn btn-grey btn-sm pointer">
+				  Edit Loan Info
+				</button>
+			<% end %>
 		</div> <!-- col -->		
 	</header>
-	<%= render partial: "payments/modal_new", locals: { loan: @loan, payment: Payment.new } %>
-
+	<% if current_user && current_user.admin %>
+		<%= render partial: "payments/modal_new", locals: { loan: @loan, payment: Payment.new } %>
+		<%= render partial: "loans/modal_edit", locals: { loan: @loan } %>
+	<% end %>
 
 	<section class="row">
 		<div class="col-12">
@@ -64,7 +72,7 @@
 					<tr>
 						<th scope="col">Date</th>
 						<th scope="col">Type</th>
-						<th scope="col">Paid/Issued By</th>
+						<th scope="col">Description</th>
 						<th scope="col" class="text-right">Invoices</th>
 						<th scope="col" class="text-right">Payments</th>
 						<th scope="col" class="text-right">Loan Balance</th>
@@ -77,7 +85,7 @@
 					<tr>
 						<td><%= @loan.first_payment.strftime('%m/%d/%Y') %></td>
 						<td>Original Loan</td>
-						<td>Linchpin Realty</td>
+						<td>Loan Principal</td>
 						<td class="text-right"><i class="fas fa-window-minimize color-grey-light"></i></td>
 						<td class="text-right"><i class="fas fa-window-minimize color-grey-light"></i></td>
 						<td class="text-right">-<%= number_to_currency(@loan.principal) %></td>
@@ -86,7 +94,13 @@
 					<% @loan.payments.order(date: :asc, id: :asc).each do |payment| %>
 						<tr>
 							<td><%= payment.date.strftime('%m/%d/%Y') %></td>
-							<td><%= payment.due_or_paid == "Paid" ? "Payment" : "Invoice"  %></td>
+							<td>
+								<% if payment.due_or_paid == "Paid" %>
+									<span class="color-green">Payment</span>
+								<% else %>
+									<span class="color-red">Invoice</span>
+								<% end %>
+							</td>
 							<td><%= payment.paid_by %></td>
 							<td class="color-red text-right"><%= payment.due_or_paid == "Due" ? "-" + number_to_currency(payment.amount) : '<i class="fas fa-window-minimize color-grey-light"></i>'.html_safe %></td>
 							<td class="color-green text-right"><%= payment.due_or_paid == "Paid" ? number_to_currency(payment.amount) : '<i class="fas fa-window-minimize color-grey-light"></i>'.html_safe %></td>
@@ -107,7 +121,7 @@
 					<% end %>
 
 					<tr class="bolder text-right">
-						<td colspan="5" class="text-right bolder">Outstanding Loan Balance</td>
+						<td colspan="5" class="text-right bolder">Current Loan Balance</td>
 						<td>-<%= number_to_currency(@loan.balance) %></td>
 						<td></td>
 					</tr>
