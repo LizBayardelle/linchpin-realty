@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Document Received</h1>
+        
+    <p>
+      Hello <%= @document.user.first_name %>,
+    </p>
+    <p>
+      This email is to let you know that your document <strong><%= @document.name %></strong> has been recieved by the Linchpin Realty team.
+    </p>
+    <p>
+      Right now no action is necessary on your part, we just wanted to let you know we got it.  However, if you have any questions feel free to email us any time.
+    </p>
+
+    <p>
+      Thanks,<br>
+      The Linchpin Realty Team
+    </p>
+
+
+    <hr style="border: 0; border-top: solid 2px #031D55; margin-top: 25px" />
+    <img src="http://www.linchpinrealty.com/assets/logo_words-d9d59d554250be8f4efbd22b6b05e0351dfa7898acdf0ed97b5a6fb4b76acf49.png" style="width: 150px; display: block; margin-right: auto; margin-left: auto">
+    <hr style="border: 0; border-top: solid 2px #031D55;" />
+
+  </body>
+</html>

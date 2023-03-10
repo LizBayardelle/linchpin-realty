@@ -68,7 +68,7 @@
 		                <% if document.received %>
 		                  <i class="fas fa-check-circle color-green"></i>
 		                <% else %>
-		                  <%= link_to mark_received_path(document), method: :post do %>
+		                  <%= link_to mark_received_path(document), method: :post, data: { confirm: "Are you sure you want to mark that document received?  The client will be sent a notification email."} do %>
 		                    <i class="far fa-check-circle color-green"></i>
 		                  <% end %>
 		                <% end %>

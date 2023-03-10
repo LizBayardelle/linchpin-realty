@@ -58,6 +58,7 @@ class DocumentsController < ApplicationController
   def mark_received
     @document = Document.find(params[:id])
     if @document.update_attributes(received: true)
+        NotificationsMailer.document_approved(@document).deliver_now
         redirect_to admin_documents_path
         flash[:notice] = "That document has been marked recieved and the client has been notified."
     else
