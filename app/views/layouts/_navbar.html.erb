@@ -58,9 +58,9 @@
             aria: { haspopup: "true", expanded: "false" } %>
           <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
             <%= link_to "Admin Dashboard", admin_dashboard_path, class: "dropdown-item" %>
-            <%= link_to "All Loans", admin_loans_path, class: "dropdown-item" %>
-            <%= link_to "All Documents", admin_documents_path, class: "dropdown-item" %>
-            <%= link_to "All Clients", admin_clients_path, class: "dropdown-item" %>
+            <%= link_to "All Loans (#{ Loan.where(active: true).count })", admin_loans_path, class: "dropdown-item" %>
+            <%= link_to "All Documents (#{ Document.all.count })", admin_documents_path, class: "dropdown-item" %>
+            <%= link_to "All Clients (#{ User.where(current_client: true).count })", admin_clients_path, class: "dropdown-item" %>
             <%#= link_to "Blog Manager", admin_blogs_path, class: "dropdown-item" %>
           </div>
         </li>
@@ -69,7 +69,7 @@
 
 
       <% visible_loans = [] %>
-      <% Loan.all.each do |loan| %>
+      <% Loan.where(active: true).each do |loan| %>
         <% if loan.user != nil && ( current_user.user_ids.include? loan.user_id ) %> 
           <% visible_loans << loan %>
         <% end %>
@@ -97,13 +97,13 @@
           <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink-4">
             <%= link_to "Team Dashboard", team_dashboard_path, class: "dropdown-item" %>
             <% if visible_loans.count != 0 %>
-              <%= link_to "Client Loans", team_loans_path, class: "dropdown-item" %>
+              <%= link_to "Client Loans (#{ visible_loans.count })", team_loans_path, class: "dropdown-item" %>
             <% end %>
             <% if visible_loans.count != 0 %>
-              <%= link_to "Client Documents", team_documents_path, class: "dropdown-item" %>
+              <%= link_to "Client Documents (#{ visible_docs.count })", team_documents_path, class: "dropdown-item" %>
             <% end %>
             <% if visible_clients.count != 0 %>
-              <%= link_to "My Clients", team_clients_path, class: "dropdown-item" %>
+              <%= link_to "My Clients (#{ visible_clients.count })", team_clients_path, class: "dropdown-item" %>
             <% end %>
           </div>
         </li>

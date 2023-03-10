@@ -7,15 +7,18 @@
 
 <main class="my-4 container">
 
+  <header class="text-center mb-4">
+    <h1>Client Manager</h1>
+  </header>
+
 
 <!-- TEAM MEMBERS -->
   <section class="row justify-content-center">
     <div class="col-12">
-      <h2 class="mt-4">Team Members</h2>
+      <h2 class="mt-4">Team Members (<%= @teams.count %>)</h2>
       <table class="table basic-table table-hover">
         <thead>
           <tr>
-            <th scope="col" class="text-center">Access</th>                     
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Clients</th>
@@ -26,20 +29,22 @@
         <tbody>
           <% @teams.each do |user| %>
             <tr>
-              <td class="text-center">
-                <i data-toggle="modal" data-target="#access<%= user.id %>Modal" class="fas fa-people-arrows"></i>
-              </td>              
-              <td><%= link_to user.full_name, user_path(user) %></td>
-              <td><%= user.email %></td>
+              <td>
+                <%= link_to user.full_name, user_path(user) %>
+              </td>
+              <td>
+                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
+                <%= user.email %>
+              </td>
               <td>
                 <% user.users.each do |client| %>
                   <%= link_to client.full_name, user_path(client) %><br>
                 <% end %>
               </td>
               <td class="text-center">
+                <i data-toggle="modal" data-target="#access<%= user.id %>Modal" class="fas fa-people-arrows mx-1 linkish"></i>
                 <i data-toggle="modal" data-target="#permissions<%= user.id %>Modal" class='fas fa-user-cog mx-1 linkish'></i>
-                <%= link_to "<i class='fas fa-minus-square mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
-                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
+                <%= link_to "<i class='fas fa-trash mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
               </td>
               <td class="text-center"><%= user.id %></td>
             </tr>
@@ -101,7 +106,7 @@
 <!-- CURRENT CLIENTS -->
   <section class="row justify-content-center">
     <div class="col-12">
-      <h2 class="mt-4">Current Clients</h2>
+      <h2 class="mt-4">Current Clients (<%= @clients.count %>)</h2>
       <table class="table basic-table table-hover">
         <thead>
           <tr>
@@ -133,8 +138,13 @@
             <% end %>
 
             <tr>
-              <td><%= link_to user.full_name, user_path(user) %></td>
-              <td><%= user.email %></td>
+              <td>
+                <%= link_to user.full_name, user_path(user) %>
+              </td>
+              <td>
+                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
+                <%= user.email %>
+              </td>
               <td><%= user.phone %></td>
               <td><%= user.created_at.strftime('%m/%d/%Y') %></td>
               <td>
@@ -145,8 +155,7 @@
               <td><%= link_to pluralize(client_documents.count, "Document"), team_documents_path %></td>
               <td class="text-center">
                 <i data-toggle="modal" data-target="#permissions<%= user.id %>Modal" class='fas fa-user-cog mx-1 linkish'></i>
-                <%= link_to "<i class='fas fa-minus-square mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
-                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
+                <%= link_to "<i class='fas fa-trash mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
               </td>
               <td class="text-center"><%= user.id %></td>
             </tr>
@@ -163,7 +172,7 @@
 <!-- ALL USERS -->
   <section class="row justify-content-center">
     <div class="col-12">
-      <h2 class="mt-4">Other Website Users</h2>
+      <h2 class="mt-4">Other Website Users (<%= @non_clients.count %>)</h2>
       <table class="table basic-table table-hover">
         <thead>
           <tr>
@@ -178,14 +187,18 @@
         <tbody>
           <% @non_clients.each do |user| %>
             <tr>
-              <td><%= link_to user.full_name, user_path(user) %></td>
-              <td><%= user.email %></td>
+              <td>
+                <%= link_to user.full_name, user_path(user) %>
+              </td>
+              <td>
+                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
+                <%= user.email %>
+              </td>
               <td><%= user.phone %></td>
               <td><%= user.created_at.strftime('%m/%d/%Y') %></td>
               <td class="text-center">
                 <i data-toggle="modal" data-target="#permissions<%= user.id %>Modal" class='fas fa-user-cog mx-1 linkish'></i>
-                <%= link_to "<i class='fas fa-minus-square mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
-                <a href="mailto:<%= user.email %>" target="_blank"><i class='fas fa-envelope mx-1 linkish'></i></a>
+                <%= link_to "<i class='fas fa-trash mx-1 linkish'></i>".html_safe, user_path(user), method: :delete, data: {confirm: "Are you sure you want to delete that user?"} %>
               </td>
               <td class="text-center"><%= user.id %></td>
             </tr>

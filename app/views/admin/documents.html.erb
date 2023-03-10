@@ -23,23 +23,37 @@
         <% if client.documents.count != 0 %>
           <h2><%= client.last_first %> (<%= client.documents.count %>)</h2>
           <table class="table basic-table table-hover">
+
+            <thead>
+              <tr>
+                <th scope="col">PDF</th>
+                <th scope="col" class="text-center">Recieved?</th>
+                <th scope="col">Submitted</th>
+                <th scope="col">Description</th>
+                <th scope="col">Loan</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+
+
             <tbody>
               <% client.documents.order(created_at: :asc).each do |document| %>
                 <tr style="vertical-align:top">
-                  <td class="text-center" style="max-width: 40px">
-                    <% if document.received %>
-                      <i class="fas fa-check-circle color-green"></i>
-                    <% else %>
-                      <%= link_to mark_received_path(document), method: :post do %>
-                        <i class="far fa-check-circle color-green"></i>
-                      <% end %>
-                    <% end %>
-                  </td>
                   <td class="text-center" style="width: 40px">
                     <% if document.upload.attached? %>
                       <a href="<%= rails_blob_path(document.upload) %>" target="_blank">
                         <i class="fas fa-file"></i>
                       </a>
+                    <% end %>
+                  </td>
+                  <td class="text-center" style="max-width: 40px">
+                    <% if document.received %>
+                      <i class="fas fa-check-circle color-green"></i>
+                    <% else %>
+                      <%= link_to mark_received_path(document), method: :post do %>
+                        <i class="far fa-times-circle color-green"></i>
+                      <% end %>
                     <% end %>
                   </td>
                   <td><%= document.created_at.strftime('%m/%d/%Y') %></td>

@@ -6,13 +6,19 @@
 
 
 <% visible_loans = [] %>
-<% @loans.each do |loan| %>
+<% @loans.where(active: true).each do |loan| %>
 	<% if loan.user != nil && ( current_user.user_ids.include? loan.user_id ) %> 
 		<% visible_loans << loan %>
 	<% end %>
 <% end %>
 
 
+<% past_loans = [] %>
+<% @loans.where(active: false).each do |loan| %>
+	<% if loan.user != nil && ( current_user.user_ids.include? loan.user_id ) %> 
+		<% past_loans << loan %>
+	<% end %>
+<% end %>
 
 <main class="my-4 container">
 
@@ -46,12 +52,12 @@
 							<th scope="col"></th>
 							<th scope="col">Client</th>
 							<th scope="col">Program</th>
-							<th scope="col">Loan Status</th>
+							<th scope="col">Status</th>
 							<th scope="col">Dates</th>
 							<th scope="col">Term</th>
 							<th scope="col">Amount</th>
 							<th scope="col">Rate</th>
-							<th scope="col">Actions</th>						
+							<th scope="col">Links</th>						
 						</tr>
 					</thead>
 					<tbody>
@@ -73,16 +79,6 @@
 								<td><%= number_to_currency(loan.principal) %></td>
 								<td><%= loan.interest_rate %>%</td>
 								<td>
-									<!-- EDIT -->
-									<span data-toggle="modal" data-target="#editLoan<%= loan.id %>Modal" class="pointer">
-									  <i class="fas fa-pen mr-1"></i>
-									</span>
-									<%= render partial: "loans/modal_edit", locals: { loan: loan } %>
-
-									<!-- DELETE -->
-						            <%= link_to "<i class='fas fa-minus-square mr-1'></i>".html_safe, loan_path(loan), method: :delete, data: {confirm: "Are you sure you want to delete that loan?"} %>
-
-									<!-- EMAIL -->
 									<a href="mailto:<%= loan.client_email %>" target="_blank"><i class='fas fa-envelope'></i></a>
 								</td>
 							</tr>

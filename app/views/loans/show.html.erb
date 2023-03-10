@@ -1,4 +1,4 @@
-<% if current_user && current_user.admin %>
+<% if current_user && current_user.admin && ( current_user.id != @loan.user_id ) %>
 	<nav class="breadcrumbs">
 		<% if current_user.admin %>
 		  <%= link_to "Admin Dashboard", admin_dashboard_path %>
@@ -19,7 +19,7 @@
 	</nav>
 <% else %>
 	<nav class="breadcrumbs">
-	  <%= link_to "My Portal", user_path(current_user) %>
+	  <%= link_to "#{ current_user.first_name }'s Client Portal", user_path(current_user) %>
 	  &nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
   	  <%= @loan.loan_identifier %>
 	</nav>

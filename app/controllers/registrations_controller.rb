@@ -18,6 +18,15 @@ class RegistrationsController < Devise::RegistrationsController
     resource.update_without_password(params.except("current_password"))
   end
 
+  def after_update_path_for(resource)
+    flash[:notice] = "Successfully updated!"
+    if current_user.admin
+      admin_clients_path
+    else
+      root_path
+    end
+  end
+
   private
 
   def sign_up_params

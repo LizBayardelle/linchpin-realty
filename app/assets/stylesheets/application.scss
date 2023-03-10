@@ -418,6 +418,11 @@ table.basic-table td {
 	padding: 5px 10px 5px 10px;
 }
 
+table.basic-table th {
+	font-weight: 800;
+	padding: 5px 10px 5px 10px;
+}
+
 table.lined-table {
 	width: 100%;
 }
@@ -549,7 +554,19 @@ select#contact_preferred_contact, select#contact_purpose, select#value_sell_time
 	display: block;
 }
 
-.original-form .form-check-input {
+.form-check {
+	padding-left: 38px;
+}
+
+.form-check-label::before {
+	display: none;
+}
+
+.form-check-label {
+	padding: 0px !important;
+}
+
+.form-check-input {
 	opacity: 100 !important;
 	pointer-events: fill !important;
 }

@@ -1,54 +1,68 @@
 <nav class="breadcrumbs">
-  My Portal
+	<% if current_user.admin && ( current_user.id != @user.id ) %>
+		<%= link_to "Admin Dashboard", admin_dashboard_path %>
+		&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+		<%= link_to "Clients", admin_clients_path %>
+		&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+	<% elsif current_user.team && ( current_user.id != @user.id ) %>
+		<%= link_to "Team Dashboard", team_dashboard_path %>
+		&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+		<%= link_to "Clients", team_clients_path %>
+		&nbsp;&nbsp;&nbsp;>&nbsp;&nbsp;&nbsp;
+	<% end %>
+	<%= @user.first_name %>'s Client Portal
 </nav>
+
+
 
 
 <main class="my-5 container font-sans">
 
 	<header class="row mb-5">
 		<div class="col-6 col-md-8">
-			<h1>My Portal</h1>
-			<p><small>
-	      <%= link_to "Edit My Info", edit_user_registration_path %>
-	      &nbsp;&nbsp;|&nbsp;&nbsp;
-	      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
-			</small></p>
+			<% if current_user && current_user.id == @user.id %>
+				<h1>My Client Portal</h1>
+				<p><small>
+		      <%= link_to "Edit My Info", edit_user_registration_path %>
+		      &nbsp;&nbsp;|&nbsp;&nbsp;
+		      <%= link_to('Logout', destroy_user_session_path, :method => :delete) %>
+				</small></p>
+		  <% else %>
+		  	<h1><%= @user.full_name %></h1>
+		  	<p><small>Client Portal</p></small>
+			<% end %>
 		</div>
 
 		<div class="col-6 col-md-4 text-right">
 			<div class="box p-3">
 				<p class="bolder"><%= @user.full_name %></p>
-				<p><%= @user.email %></p>
-				<p><%= @user.phone %></p>
+				<p class="font-serif"><%= @user.email %></p>
+				<p class="font-serif"><%= @user.phone %></p>
+			</div>
 		</div>
 	</header>
 
 	<section class="row pb-5">
 
 		<div class="col-sm-6">
-			<h2>My Loans</h2>
+			<h2>Loans (<%= @loans.count %>)</h2>
 			<% if @loans.count != 0 %>
 				<table class="table basic-table">
 					<tbody>
 						<% @loans.each do |loan| %>
 							<tr>
-								<td>
-									<% if loan.user %>
-										<i class="fas fa-link ml-1 color-red"></i>
-									<% end %>
-								</td>
 								<td><%= link_to loan.loan_identifier, loan_path(loan) %></td>
 							</tr>
 						<% end %>
 					</tbody>
 				</table>
 			<% else %>
-				<p>You currently don't have any loans with Linchpin Realty.</p>
+				<p>No current loans with Linchpin Realty.</p>
 			<% end %>
 		</div> <!-- col -->
 
 		<div class="col-sm-6">
-			<h2>Recent Docs</h2>
+			<h2>Documents (<%= @documents.count %>)</h2>
 			<% if @documents.count != 0 %>
 				<table class="table basic-table">
 					<tbody>
@@ -58,9 +72,13 @@
 	                <% if document.received %>
 	                  <i class="fas fa-check-circle color-green"></i>
 	                <% else %>
-	                  <%= link_to mark_received_path(document), method: :post do %>
-	                    <i class="far fa-check-circle color-green"></i>
-	                  <% end %>
+	                	<% if current_user.admin %>
+		                  <%= link_to mark_received_path(document), method: :post do %>
+		                    <i class="far fa-times-circle color-green"></i>
+		                  <% end %>
+	                  <% else %>
+	                    <i class="far fa-times-circle color-green"></i>
+                    <% end %>
 	                <% end %>
 	              </td>
 								<td>
@@ -76,9 +94,9 @@
 					</tbody>
 				</table>
 			<% else %>
-				<p>You currently don't have any loans with Linchpin Realty.</p>
+				<p>No documents currently uploaded.</p>
 			<% end %>
-			<%= link_to "My Document Manager", documents_path, class: "btn btn-blue-dark btn-sm" %>
+			<%= link_to "Document Manager", documents_path, class: "btn btn-blue-dark btn-sm" %>
 		</div> <!-- col -->
 
 	</section>
