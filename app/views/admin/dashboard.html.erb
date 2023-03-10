@@ -45,7 +45,7 @@
 
 		<div class="col-sm-4">
 			<div class="h-100">
-				<h2>Recent Docs (<%= @documents.count %>)</h2>
+				<h2>Documents (<%= @documents.count %>)</h2>
 				<table class="table basic-table">
 					<tbody>
 						<% if @documents.count != 0 %>
@@ -88,7 +88,7 @@
 
 		<div class="col-sm-4">
 			<div class="h-100">
-				<h2>Current Clients (<%= @clients.count %>)</h2>
+				<h2>Clients (<%= @clients.count %>)</h2>
 				<table class="table basic-table">
 					<tbody>
 						<% if @clients.count != 0 %>
@@ -105,7 +105,26 @@
 				<% if @clients.count != 0 %>
 					<%= link_to "Client Manager", admin_clients_path, class: "btn btn-blue-dark btn-sm" %>
 				<% end %>
+
+				<h2 class="mt-5">Team (<%= @teams.count %>)</h2>
+				<table class="table basic-table">
+					<tbody>
+						<% if @teams.count != 0 %>
+							<% @teams.each do |team| %>
+								<tr>
+		              <td><%= link_to team.last_first, user_path(team) %></td>
+								</tr>
+							<% end %>
+						<% else %>
+							<p>Currently you do not have any active team members.</p>
+						<% end %>
+					</tbody>
+				</table>
+				<% if @teams.count != 0 %>
+					<%= link_to "Team Manager", admin_clients_path, class: "btn btn-blue-dark btn-sm" %>
+				<% end %>
 			</div>
+
 		</div> <!-- col -->
 
 	</section>

@@ -2,6 +2,7 @@ class AdminController < ApplicationController
   before_action :admin_only
   
   def dashboard
+    @teams = User.where(team: true)
     @loans = Loan.where(active: true)
     @documents = Document.all.order(created_at: :desc).limit(10)
     @clients = []
