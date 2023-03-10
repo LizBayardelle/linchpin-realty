@@ -70,21 +70,21 @@
 
       <% visible_loans = [] %>
       <% Loan.where(active: true).each do |loan| %>
-        <% if current_user && loan.user != nil && ( current_user.user_ids.include? loan.user_id ) %> 
+        <% if current_user && ( loan.user != nil && ( current_user.user_ids.include? loan.user_id ) )%> 
           <% visible_loans << loan %>
         <% end %>
       <% end %>
 
       <% visible_docs = [] %>
       <% Document.all.each do |doc| %>
-        <% if current_user && doc.user != nil && ( current_user.user_ids.include? doc.user_id ) %> 
+        <% if current_user && ( doc.user != nil && ( current_user.user_ids.include? doc.user_id ) )%> 
           <% visible_docs << doc %>
         <% end %>
       <% end %>
 
       <% visible_clients = [] %>
       <% User.where(current_client: true).each do |client| %>
-        <% if current_user && current_user.user_ids.include? client.id %> 
+        <% if current_user && ( current_user.user_ids.include? client.id )%> 
           <% visible_clients << client %>
         <% end %>
       <% end %>
