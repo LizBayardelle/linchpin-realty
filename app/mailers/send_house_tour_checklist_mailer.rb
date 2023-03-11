@@ -1,5 +1,5 @@
 class SendHouseTourChecklistMailer < ApplicationMailer
-  default from: "Anthony Bayardelle <anthony@linchpinrealty.com>"
+  default from: "Linchpin Realty <admin@linchpinrealty.com>"
 
   def send_house_tour_checklist(subscriber)
     @subscriber = subscriber

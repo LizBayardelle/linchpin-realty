@@ -1,5 +1,5 @@
 class SendSellerMistakesMailer < ApplicationMailer
-  default from: "Anthony Bayardelle <anthony@linchpinrealty.com>"
+  default from: "Linchpin Realty <admin@linchpinrealty.com>"
 
   def send_seller_mistakes(subscriber)
     @subscriber = subscriber

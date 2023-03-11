@@ -1,6 +1,5 @@
 class NotificationsMailer < ApplicationMailer
-
-  default from: "Anthony Bayardelle <anthony@linchpinrealty.com>"
+  default from: "Linchpin Realty <admin@linchpinrealty.com>"
 
   def document_approved(document)
     @document = document

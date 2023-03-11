@@ -1,5 +1,5 @@
 class QuickMailer < ApplicationMailer
-  default from: "Anthony Bayardelle <anthony@linchpinrealty.com>"
+  default from: "Linchpin Realty <admin@linchpinrealty.com>"
 
   def new_quick(quick)
     @quick = quick

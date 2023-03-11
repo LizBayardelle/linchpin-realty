@@ -1,5 +1,5 @@
 class ContactMailer < ApplicationMailer
-  default from: "Anthony Bayardelle <anthony@linchpinrealty.com>"
+  default from: "Linchpin Realty <admin@linchpinrealty.com>"
 
   def new_contact(contact)
     @contact = contact
