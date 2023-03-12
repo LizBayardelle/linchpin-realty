@@ -51,7 +51,13 @@ class DocumentsController < ApplicationController
     @document.destroy
 
     respond_to do |format|
-      format.html { redirect_to documents_path, notice: "Document was successfully destroyed." }
+      format.html { 
+        if current_user && current_user.admin
+          redirect_to admin_documents_path, notice: "Document was successfully destroyed." 
+        else
+          redirect_to documents_path, notice: "Document was successfully destroyed." 
+        end
+      }
       format.json { head :no_content }
     end
   end
