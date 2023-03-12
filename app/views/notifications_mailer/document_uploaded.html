@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>New Document Uploaded</h1>
+        
+    <p>
+      Hello,
+    </p>
+    <p>
+      A new document <strong><%= @document.name %></strong> has been uploaded by <strong><%= @document.user.full_name %></strong>.
+    </p>
+    <p>
+      To review this and <%= @document.user.full_name %>'s <%= pluralize(@document.user.documents.count, "other document") %> you can log in to the <%= link_to "Admin Documents Manager", admin_documents_url %>.
+    </p>
+
+    <p>
+      Thanks,<br>
+      The Linchpin Realty Robot Squad
+    </p>
+
+
+    <hr style="border: 0; border-top: solid 2px #031D55; margin-top: 25px" />
+    <img src="http://www.linchpinrealty.com/assets/logo_words-d9d59d554250be8f4efbd22b6b05e0351dfa7898acdf0ed97b5a6fb4b76acf49.png" style="width: 150px; display: block; margin-right: auto; margin-left: auto">
+    <hr style="border: 0; border-top: solid 2px #031D55;" />
+
+  </body>
+</html>

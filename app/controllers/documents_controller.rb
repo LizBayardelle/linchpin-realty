@@ -22,6 +22,8 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       if @document.save
+        NotificationsMailer.document_received(@document).deliver_now
+        NotificationsMailer.document_uploaded(@document).deliver_now
         format.html { redirect_to documents_path, notice: "Thank you! Your document has been securely uploaded. You'll get a confirmation email when it is received by our team." }
         format.json { render :show, status: :created, location: @document }
       else
@@ -58,7 +60,6 @@ class DocumentsController < ApplicationController
   def mark_received
     @document = Document.find(params[:id])
     if @document.update_attributes(received: true)
-        NotificationsMailer.document_approved(@document).deliver_now
         redirect_to admin_documents_path
         flash[:notice] = "That document has been marked recieved and the client has been notified."
     else
